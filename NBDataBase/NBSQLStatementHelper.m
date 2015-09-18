@@ -638,17 +638,13 @@ NSString *createSelectSQLWithParams(NBDBQueryParams *params,NSMutableArray *__au
     }
     *selectValues = [[NSMutableArray alloc] init];
     NSString* columnsString = nil;
-    NSUInteger columnCount = 0;
     if(params.columnArray.count > 0)
     {
-        columnCount = params.columnArray.count;
         columnsString = [params.columnArray componentsJoinedByString:@","];
     }
     else if([NBDBHelper checkStringIsEmpty:params.columns] == NO)
     {
         columnsString = params.columns;
-        NSArray* array = [params.columns componentsSeparatedByString:@","];
-        columnCount = array.count;
     }
     else
     {
@@ -718,7 +714,6 @@ NSString *createUnionSelectSQLWithParams(NBDBQueryParams *params,NSMutableArray 
     {
          NSArray *array = params.followColumnsArray.count>0?params.followColumnsArray:[params.followColumns componentsSeparatedByString:@","];
         
-        columnCount += array.count;
         for (int i=0;i<array.count;++i) {
             NSString *column = [array objectAtIndex:i];
             if (i==0) {

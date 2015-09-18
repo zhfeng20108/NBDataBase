@@ -29,6 +29,7 @@
 		25D7A36D1B6F3E5400DC4412 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A35E1B6F3E5400DC4412 /* FMDatabaseQueue.m */; };
 		25D7A36E1B6F3E5400DC4412 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A3611B6F3E5400DC4412 /* FMResultSet.m */; };
 		25D7A37A1B6F46EF00DC4412 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D7A3781B6F46B900DC4412 /* libsqlite3.0.dylib */; };
+		25E05FFF1BABFFE800B380B8 /* NBDBConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 25E05FFE1BABFFE800B380B8 /* NBDBConfigure.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +92,8 @@
 		25D7A3741B6F43BC00DC4412 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		25D7A3761B6F447800DC4412 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		25D7A3781B6F46B900DC4412 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		25E05FFD1BABFFE800B380B8 /* NBDBConfigure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBDBConfigure.h; sourceTree = "<group>"; };
+		25E05FFE1BABFFE800B380B8 /* NBDBConfigure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBDBConfigure.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +197,8 @@
 				25D7A33F1B6F098500DC4412 /* NBPrivateDataBase.m */,
 				25D7A3401B6F098500DC4412 /* NBSQLStatementHelper.h */,
 				25D7A3411B6F098500DC4412 /* NBSQLStatementHelper.m */,
+				25E05FFD1BABFFE800B380B8 /* NBDBConfigure.h */,
+				25E05FFE1BABFFE800B380B8 /* NBDBConfigure.m */,
 			);
 			name = NBDataBase;
 			path = ../NBDataBase;
@@ -356,6 +361,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25E05FFF1BABFFE800B380B8 /* NBDBConfigure.m in Sources */,
 				25CDACAC1B6B765300C59432 /* ViewController.m in Sources */,
 				25D7A3421B6F098500DC4412 /* NBBaseDBTableModel.m in Sources */,
 				25D7A3451B6F098500DC4412 /* NBDBNameHelper.m in Sources */,

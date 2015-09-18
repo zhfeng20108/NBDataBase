@@ -9,17 +9,17 @@
 #import <Foundation/Foundation.h>
 
 @interface NBDBHelper : NSObject
-//判断名字是否是数据库的字段名
+/// 判断名字是否是数据库的字段名
 + (BOOL)isColumn:(NSString *)name;
-//判断是否是主键
+/// 判断是否是主键
 + (BOOL)isPrimaryKey:(NSString *)name;
-//把属性的类型type转成数据库里支持的类型
+/// 把属性的类型type转成数据库里支持的类型
 + (NSString *)columnTypeStringWithDataType:(const char *)type;
-//把数据库的类型转成OC支持的类名
+/// 把数据库的类型转成OC支持的类名
 + (NSString *)classStringWithDataType:(const char *)type;
-//检查字符串是否为空
+/// 检查字符串是否为空
 + (BOOL)checkStringIsEmpty:(NSString *)string;
-//获取类里的主键数组
+/// 获取类里的主键数组
 + (NSArray *)getPrimaryKeys:(Class)modelClass;
 
 

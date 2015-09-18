@@ -13,7 +13,9 @@
 #import <objc/message.h>
 #import "NBDBNameHelper.h"
 #import "NBDBHelper.h"
-
+#import "NBDBDefine.h"
+#import "FMDatabaseQueue.h"
+#import "NBDBConfigure.h"
 @interface NBDataBase ()
 
 //打开数据库
@@ -66,12 +68,14 @@
         return;
     }
     _dbPath = dbPath;
-    
+    //升级数据库
+    [self upgradeDatabase:_dbPath];
     //打开数据库
     [self openDB];
     //建表
     [[self class] updateTableInDB];
-    
+    //保存最新的数据库版本号
+    [self saveVersionToLocal];
 }
 
 
@@ -84,7 +88,7 @@
         {
             Class clazz = [value pointerValue];
             if ([clazz isSubclassOfClass:[NBBaseDBTableModel class]]) {
-                NSString *tableName = [clazz performSelector:@selector(getTableName)];
+                NSString *tableName = [clazz getTableName];
                 if (![db tableExists:tableName]) {
                     //表不存在，就创建
                     NSString *sql = createTableSQL(clazz);
@@ -582,7 +586,7 @@
 // 删除记录
 - (BOOL)deleteRecordFromTable:(Class)tableClass where:(id)where;
 {
-    NSString *tableName = [tableClass performSelector:@selector(getTableName)];
+    NSString *tableName = [tableClass getTableName];
     if (tableName.length == 0) {
         NSAssert(tableName.length>0, @"tableName 不能为空");
         return NO;
@@ -651,7 +655,7 @@
         return NO;
     }
     
-    NSString *tableName =  [tableClass performSelector:@selector(getTableName)];
+    NSString *tableName =  [tableClass getTableName];
     if (tableName.length == 0) {
         NSAssert(tableName.length>0, @"tableName 不能为空");
         return NO;
@@ -663,7 +667,7 @@
         //生成更新语句
         NSMutableArray *updateValues = nil;
         NSString *updateSql = createUpdateSQLWithModelAndTableClass(model, tableClass,sets, where, &updateValues);
-        NSLog(@"%@",updateSql);
+        //NSLog(@"%@",updateSql);
         if (updateSql) {
             if (updateValues.count > 0) {
                 execute = [db executeUpdate:updateSql withArgumentsInArray:updateValues];
@@ -679,10 +683,11 @@
 
 -(BOOL)updateTable:(Class)modelClass set:(id)sets where:(id)where
 {
-    NSString *tableName = [modelClass performSelector:@selector(getTableName)];
-    if(tableName.length == 0)
+    NSString *tableName = [modelClass getTableName];
+    if(tableName.length == 0) {
         NSAssert(tableName.length>0, @"tableName 不能为空");
         return NO;
+    }
     
     __block BOOL execute = NO;
     
@@ -690,7 +695,7 @@
         //生成更新语句
         NSMutableArray *updateValues = nil;
         NSString *updateSql = createUpdateSQLWithTableName(tableName, sets, where, &updateValues);
-        NSLog(@"%@",updateSql);
+        //NSLog(@"%@",updateSql);
         if (updateSql) {
             if (updateValues.count > 0) {
                 execute = [db executeUpdate:updateSql withArgumentsInArray:updateValues];
@@ -1050,6 +1055,13 @@
     return resultArray.count>0?[resultArray firstObject]:nil;
 }
 
+// 自定义对象
+- (NBBaseDBTableModel *)queryData:(Class)tableClass where:(id)where orderBy:(NSString *)orderBy
+{
+    NSArray *resultArray = [self query:tableClass where:where orderBy:orderBy offset:0 count:1];
+    return resultArray.count>0?[resultArray firstObject]:nil;
+}
+
 #pragma mark - 是否存在记录
 - (BOOL)isExistsWithModel:(NBBaseDBTableModel *)model;
 {
@@ -1083,7 +1095,7 @@
 //是否有对应的表
 - (BOOL)isExistTable:(Class)tableClass
 {
-    NSString *tableName = [tableClass performSelector:@selector(getTableName)];
+    NSString *tableName = [tableClass getTableName];
     NSAssert(tableName.length>0, @"表名不能为空");
     __block BOOL isExist = NO;
     [self.fmdbQueue inDatabase:^(FMDatabase *db) {
@@ -1102,10 +1114,16 @@
             _fmdbQueue = [FMDatabaseQueue databaseQueueWithPath:_dbPath];
             if (!_fmdbQueue) {
                 success = NO;
+            } else {
+                [_fmdbQueue inDatabase:^(FMDatabase *db) {
+                    if ([NBDBConfigure isEncrypted]) {
+                        [db setKey:[NBDBConfigure secretkey]];
+                    } else {
+                        [db setShouldCacheStatements:YES];
+                    }
+                }];
             }
-            [_fmdbQueue inDatabase:^(FMDatabase *db) {
-                [db setShouldCacheStatements:YES];
-            }];
+            
         }
         if (_fmdbQueue) {
             success = YES;
@@ -1121,6 +1139,169 @@
     return success;
 }
 
+///库的当前版本号
+- (NSString *)version
+{
+    return [NBDBConfigure version];
+}
+
+///库的缓存的版本号
+- (NSString *)cacheVersion
+{
+   return [[NSUserDefaults standardUserDefaults] valueForKey:[self cacheVersionKey]];
+}
+
+- (void)saveVersionToLocal
+{
+    if ([[self version] isEqualToString:[[NSUserDefaults standardUserDefaults] valueForKey:[self cacheVersionKey]]]) {
+        return;
+    }
+    [[NSUserDefaults standardUserDefaults] setValue:[self version] forKey:[self cacheVersionKey]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSString *)cacheVersionKey
+{
+    NSString *uid = @"";
+    if ([[_dbPath lastPathComponent] rangeOfString:@"_common"].length == 0) {
+        uid = [NBDBConfigure currentUserId];
+    }
+    return [NSString stringWithFormat:@"%@_%@",uid,[_dbPath lastPathComponent]];
+}
+
+
+- (BOOL)isEncrypted
+{
+    BOOL b = [[[NSUserDefaults standardUserDefaults] valueForKey:[self cacheEncryptedStatusKey]] boolValue];
+    if ([[self cacheVersion] isEqualToString:@"0.0.1"] && !b) {
+        [self saveEncryptedStatus:YES];
+        b = YES;//0.0.1版本号是加过密的
+    }
+    return b;
+}
+
+- (void)saveEncryptedStatus:(BOOL)encrypted
+{
+    if (encrypted == [[[NSUserDefaults standardUserDefaults] valueForKey:[self cacheEncryptedStatusKey]] boolValue]) {
+        return;
+    }
+    [[NSUserDefaults standardUserDefaults] setValue:@(encrypted) forKey:[self cacheEncryptedStatusKey]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+- (NSString *)cacheEncryptedStatusKey
+{
+    NSString *uid = @"";
+    if ([[_dbPath lastPathComponent] rangeOfString:@"_common"].length == 0) {
+        uid = [NBDBConfigure currentUserId];
+    }
+    return [NSString stringWithFormat:@"%@_%@_EncryptedStatus",uid,[_dbPath lastPathComponent]];
+}
+
+
+
+
+#pragma mark - 私有方法，升级整个数据库为加密数据库
+- (void)upgradeDatabase:(NSString *)path
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:path])
+    {
+        //库文件不存在，不需要向下走
+        if ([NBDBConfigure isEncrypted]) {
+            [self saveEncryptedStatus:YES];
+        } else {
+            [self saveEncryptedStatus:NO];
+        }
+        return;
+    }
+    if ([NBDBConfigure isEncrypted]) {
+        //需要升级数据库为加密数据库
+        //缓存的版本号
+        NSString *cacheVersion = [self cacheVersion];
+        if (cacheVersion && [cacheVersion compare:@"0.0.1"] != NSOrderedAscending && [self isEncrypted]) {
+            //前一个版本号 >= 0.0.1 直接返回
+            return;
+        }
+        
+        //前一个版本号小于0.0.1才升级为加密数据库并迁移数据
+        NSString *tmppath = [self changeDatabasePath:path];
+        if(tmppath){
+            const char* sqlQ = [[NSString stringWithFormat:@"ATTACH DATABASE '%@' AS encrypted KEY '%@';",path,[NBDBConfigure secretkey]] UTF8String];
+            sqlite3 *unencrypted_DB;
+            if (sqlite3_open([tmppath UTF8String], &unencrypted_DB) == SQLITE_OK) {
+                
+                // Attach empty encrypted database to unencrypted database
+                sqlite3_exec(unencrypted_DB, sqlQ, NULL, NULL, NULL);
+                // export database
+                sqlite3_exec(unencrypted_DB, "SELECT sqlcipher_export('encrypted');", NULL, NULL, NULL);
+                // Detach encrypted database
+                sqlite3_exec(unencrypted_DB, "DETACH DATABASE encrypted;", NULL, NULL, NULL);
+                sqlite3_close(unencrypted_DB);
+                //delete tmp database
+                [self removeDatabasePath:tmppath];
+                [self saveEncryptedStatus:YES];
+            }
+            else {
+                sqlite3_close(unencrypted_DB);
+                NSAssert1(NO, @"Failed to open database with message ‘%s‘.", sqlite3_errmsg(unencrypted_DB));
+            }
+        }
+    } else {
+        //先看数据库是否是加密的
+        if (![self isEncrypted]) {
+            return;//没有加密，直接返回
+        }
+        NSString *tmppath = [self changeDatabasePath:path];
+        if(tmppath){
+            const char* sqlQ = [[NSString stringWithFormat:@"ATTACH DATABASE '%@' AS encrypted KEY '%@';",path,[NBDBConfigure secretkey]] UTF8String];
+            sqlite3 *unencrypted_DB;
+            if (sqlite3_open([tmppath UTF8String], &unencrypted_DB) == SQLITE_OK) {
+                
+                // Attach empty encrypted database to unencrypted database
+                sqlite3_exec(unencrypted_DB, sqlQ, NULL, NULL, NULL);
+                // export database
+                sqlite3_exec(unencrypted_DB, "SELECT sqlcipher_export('encrypted');", NULL, NULL, NULL);
+                // Detach encrypted database
+                sqlite3_exec(unencrypted_DB, "DETACH DATABASE encrypted;", NULL, NULL, NULL);
+                sqlite3_close(unencrypted_DB);
+                //delete tmp database
+                [self removeDatabasePath:tmppath];
+                [self saveEncryptedStatus:NO];
+            }
+            else {
+                sqlite3_close(unencrypted_DB);
+                NSAssert1(NO, @"Failed to open database with message ‘%s‘.", sqlite3_errmsg(unencrypted_DB));
+            }
+        }
+    }
+}
+
+- (NSString *)changeDatabasePath:(NSString *)path
+{
+    NSError * err = NULL;
+    NSFileManager * fm = [NSFileManager defaultManager];
+    NSString *tmppath = [NSString stringWithFormat:@"%@.tmp",path];
+    BOOL result = [fm moveItemAtPath:path toPath:tmppath error:&err];
+    if(!result){
+        NSLog(@"Error: %@", err);
+        return nil;
+    }else{
+        return tmppath;
+    }
+}
+
+- (BOOL)removeDatabasePath:(NSString *)path
+{
+    NSError *err = NULL;
+    NSFileManager * fm = [NSFileManager defaultManager];
+    BOOL result = [fm removeItemAtPath:path error:&err];
+    if(!result){
+        NSLog(@"Error: %@", err);
+        return NO;
+    }else{
+        return YES;
+    }
+}
 #pragma mark - 私有方法，查询数据库
 -(NSMutableArray *)queryBaseWithParams:(NBDBQueryParams *)params
 {
@@ -1165,11 +1346,11 @@
         
         if(columnCount == 1)
         {
-            results = [self executeOneColumnResult:set];
+            results = [self executeOneColumnResult:set class:params.toClass];
         }
         else
         {
-            results = [self executeResult:set Class:params.toClass];
+            results = [self executeResult:set class:params.toClass];
         }
         
         [set close];
@@ -1179,27 +1360,19 @@
 
 
 #pragma mark - 私有方法，获取查询结果数据集
-- (NSMutableArray *)executeOneColumnResult:(FMResultSet *)set
+- (NSMutableArray *)executeOneColumnResult:(FMResultSet *)set class:(Class)modelClass
 {
     NSMutableArray* array = [NSMutableArray arrayWithCapacity:0];
     while ([set next]) {
-        NSString* string = [set stringForColumnIndex:0];
-        if(string)
+        id obj = [set objectForColumnIndex:0];
+        if(obj && ![obj isEqual:[NSNull null]])
         {
-            [array addObject:string];
-        }
-        else
-        {
-            NSData* data = [set dataForColumnIndex:0];
-            if(data)
-            {
-                [array addObject:data];
-            }
+            [array addObject:obj];
         }
     }
     return array;
 }
-- (NSMutableArray *)executeResult:(FMResultSet *)set Class:(Class)modelClass
+- (NSMutableArray *)executeResult:(FMResultSet *)set class:(Class)modelClass
 {
     NSMutableArray* array = [NSMutableArray arrayWithCapacity:0];
     NSInteger columnCount = [set columnCount];

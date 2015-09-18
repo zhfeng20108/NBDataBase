@@ -7,7 +7,8 @@
 //
 
 #import "NBPrivateDataBase.h"
-
+#import "NBDBDefine.h"
+#import "NBDBConfigure.h"
 @implementation NBPrivateDataBase
 //单例实现
 + (NBPrivateDataBase *)sharedInstance
@@ -29,7 +30,7 @@
 {
     self = [super init];
     if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onLogOut) name:@"notify_logOff" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onLogOut) name:[NBDBConfigure logOutNotificationName] object:nil];
     }
     return self;
 }

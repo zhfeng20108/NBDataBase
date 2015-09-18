@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FMDB.h"
+#import "FMDatabaseAdditions.h"
 #import "NBSQLStatementHelper.h"
+@class FMDatabaseQueue;
 @class NBBaseDBTableModel;
 @interface NBDataBase : NSObject
 {
@@ -22,23 +23,23 @@
 
 //单例声明
 + (NBDataBase *)sharedInstance;
-/**
- 保存数据库表对应的model类
- */
+
+/// 保存数据库表对应的model类
 - (void)addRegisteClass:(Class)modelClass;
 
-/**
- 配置db库文件路径
- */
+/// 配置db库文件路径
 - (void)setupDBWithDBPath:(NSString *)dbPath;
-/**
- 数据库升级
- */
+
+/// 数据库升级
 + (void)updateTableInDB;
-/**
- 关闭数据库
- */
+/// 关闭数据库
 - (void)closeDB;
+
+/// 库的当前版本号
+- (NSString *)version;
+
+/// 库的缓存的版本号
+- (NSString *)cacheVersion;
 
 //插入数据
 - (BOOL)insertToDBWithModel:(NBBaseDBTableModel *)model;
@@ -87,21 +88,16 @@
                         columns:(id)columns
                          update:(BOOL)update;
 
-/**
- 删除数据
- */
+
+/// 删除数据
 - (BOOL)deleteRecordWithModel:(NBBaseDBTableModel *)model;
-/** 
- 删除记录，使用where条件
- */
+
+/// 删除记录，使用where条件
 - (BOOL)deleteRecordFromTable:(Class)tableClass where:(id)where;
-/**
- 清除表里所有数据
- */
+/// 清除表里所有数据
 - (BOOL)eraseTable:(Class)tableClass;
-/**
- 删除表
- */
+
+/// 删除表
 - (BOOL)deleteTable: (Class)tableClass;
 
 
@@ -121,17 +117,13 @@
 
 //查询数据
 
-/**
- 获取所有数据
- */
+/// 获取所有数据
 -(NSMutableArray *)query:(Class)modelClass;
-/**
- 获取所有数据，带条件
- */
+
+/// 获取所有数据，带条件
 -(NSMutableArray *)query:(Class)modelClass where:(id)where;
-/**
- 获取所有数据，带条件、排序
- */
+
+/// 获取所有数据，带条件、排序
 -(NSMutableArray *)query:(Class)modelClass where:(id)where orderBy:(NSString *)orderBy;
 
 -(NSMutableArray *)query:(Class)modelClass
@@ -199,41 +191,34 @@
 
 
 //获得单一数据
-/** 
- 查询一条整型数据
- */
+
+/// 查询一条整型数据
 - (NSInteger)queryIntegerdata:(Class)tableClass
                   fieldName:(NSString *)fieldName;
 - (NSInteger)queryIntegerdata:(Class)tableClass
                   fieldName:(NSString *)fieldName
                       where:(id)where;
-/**
- 查询一条布尔型数据
- */
+
+/// 查询一条布尔型数据
 - (BOOL)queryBooldata:(Class)tableClass fieldName:(NSString *)fieldName;
 - (BOOL)queryBooldata:(Class)tableClass fieldName:(NSString *)fieldName where:(id)where;
-/**
- 查询一条字符串型数据
- */
+
+/// 查询一条字符串型数据
 - (NSString *)queryStringdata:(Class)tableClass fieldName:(NSString *)fieldName;
 - (NSString *)queryStringdata:(Class)tableClass fieldName:(NSString *)fieldName where:(id)where;
-/**
- 查询一条二进制数据型数据
- */
-- (NSData *)queryBlobdata:(Class)tableClass fieldName:(NSString *)fieldName;
-/**
- 查询一条自定义数据
- */
-- (NBBaseDBTableModel *)queryData:(Class)tableClass where:(id)where;
 
-/**
- 查询数据库表是否存在
- */
+/// 查询一条二进制数据型数据
+- (NSData *)queryBlobdata:(Class)tableClass fieldName:(NSString *)fieldName;
+
+/// 查询一条自定义数据
+- (NBBaseDBTableModel *)queryData:(Class)tableClass where:(id)where;
+- (NBBaseDBTableModel *)queryData:(Class)tableClass where:(id)where orderBy:(NSString *)orderBy;
+
+
+/// 查询数据库表是否存在
 - (BOOL)isExistTable:(Class)tableClass;
 
-/**
- 查询某条记录是否存在
- */
+/// 查询某条记录是否存在
 - (BOOL)isExistsWithModel:(NBBaseDBTableModel *)model;
 
 

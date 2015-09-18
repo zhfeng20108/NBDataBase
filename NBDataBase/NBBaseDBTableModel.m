@@ -10,9 +10,10 @@
 #import "NBDataBase.h"
 #import <objc/runtime.h>
 #import <objc/message.h>
+#import <UIKit/UIKit.h>
+
 #import "NBDBNameHelper.h"
 #import "NBDBHelper.h"
-#import <UIKit/UIKit.h>
 @interface NBBaseDBTableModel ()
 @end
 
