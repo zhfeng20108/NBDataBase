@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		255B288B1BB0020200253567 /* NBCommonDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 255B288A1BB0020200253567 /* NBCommonDataBase.m */; settings = {ASSET_TAGS = (); }; };
+		255B288E1BB0036200253567 /* NBUserDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 255B288D1BB0036200253567 /* NBUserDataBase.m */; settings = {ASSET_TAGS = (); }; };
+		255B28971BB0094D00253567 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 255B28961BB0094D00253567 /* Book.m */; settings = {ASSET_TAGS = (); }; };
+		255B289A1BB009E300253567 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 255B28991BB009E300253567 /* User.m */; settings = {ASSET_TAGS = (); }; };
+		25C601201BB0FEEB000983B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D7A3701B6F415300DC4412 /* Foundation.framework */; };
 		25CDACA61B6B765300C59432 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CDACA51B6B765300C59432 /* main.m */; };
 		25CDACA91B6B765300C59432 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CDACA81B6B765300C59432 /* AppDelegate.m */; };
 		25CDACAC1B6B765300C59432 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CDACAB1B6B765300C59432 /* ViewController.m */; };
@@ -20,16 +25,9 @@
 		25D7A3451B6F098500DC4412 /* NBDBNameHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A33D1B6F098500DC4412 /* NBDBNameHelper.m */; };
 		25D7A3461B6F098500DC4412 /* NBPrivateDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A33F1B6F098500DC4412 /* NBPrivateDataBase.m */; };
 		25D7A3471B6F098500DC4412 /* NBSQLStatementHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A3411B6F098500DC4412 /* NBSQLStatementHelper.m */; };
-		25D7A3651B6F3E5400DC4412 /* FMDatabase+FTS3.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A34C1B6F3E5400DC4412 /* FMDatabase+FTS3.m */; };
-		25D7A3661B6F3E5400DC4412 /* FMTokenizers.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A34E1B6F3E5400DC4412 /* FMTokenizers.m */; };
-		25D7A3671B6F3E5400DC4412 /* FMDatabase+InMemoryOnDiskIO.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A3521B6F3E5400DC4412 /* FMDatabase+InMemoryOnDiskIO.m */; };
-		25D7A36A1B6F3E5400DC4412 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A3581B6F3E5400DC4412 /* FMDatabase.m */; };
-		25D7A36B1B6F3E5400DC4412 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A35A1B6F3E5400DC4412 /* FMDatabaseAdditions.m */; };
-		25D7A36C1B6F3E5400DC4412 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A35C1B6F3E5400DC4412 /* FMDatabasePool.m */; };
-		25D7A36D1B6F3E5400DC4412 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A35E1B6F3E5400DC4412 /* FMDatabaseQueue.m */; };
-		25D7A36E1B6F3E5400DC4412 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A3611B6F3E5400DC4412 /* FMResultSet.m */; };
 		25D7A37A1B6F46EF00DC4412 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D7A3781B6F46B900DC4412 /* libsqlite3.0.dylib */; };
 		25E05FFF1BABFFE800B380B8 /* NBDBConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 25E05FFE1BABFFE800B380B8 /* NBDBConfigure.m */; settings = {ASSET_TAGS = (); }; };
+		ADB4B0C3A4D36538F452942D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75C0E7D17A11D4B86EC90731 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +41,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		255B28891BB0020200253567 /* NBCommonDataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBCommonDataBase.h; sourceTree = "<group>"; };
+		255B288A1BB0020200253567 /* NBCommonDataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBCommonDataBase.m; sourceTree = "<group>"; };
+		255B288C1BB0036200253567 /* NBUserDataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBUserDataBase.h; sourceTree = "<group>"; };
+		255B288D1BB0036200253567 /* NBUserDataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBUserDataBase.m; sourceTree = "<group>"; };
+		255B28951BB0094D00253567 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
+		255B28961BB0094D00253567 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
+		255B28981BB009E300253567 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		255B28991BB009E300253567 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		25CDACA01B6B765300C59432 /* NBDataBaseDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NBDataBaseDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25CDACA41B6B765300C59432 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25CDACA51B6B765300C59432 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -69,24 +75,6 @@
 		25D7A33F1B6F098500DC4412 /* NBPrivateDataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBPrivateDataBase.m; sourceTree = "<group>"; };
 		25D7A3401B6F098500DC4412 /* NBSQLStatementHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBSQLStatementHelper.h; sourceTree = "<group>"; };
 		25D7A3411B6F098500DC4412 /* NBSQLStatementHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBSQLStatementHelper.m; sourceTree = "<group>"; };
-		25D7A34B1B6F3E5400DC4412 /* FMDatabase+FTS3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FMDatabase+FTS3.h"; sourceTree = "<group>"; };
-		25D7A34C1B6F3E5400DC4412 /* FMDatabase+FTS3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FMDatabase+FTS3.m"; sourceTree = "<group>"; };
-		25D7A34D1B6F3E5400DC4412 /* FMTokenizers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMTokenizers.h; sourceTree = "<group>"; };
-		25D7A34E1B6F3E5400DC4412 /* FMTokenizers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMTokenizers.m; sourceTree = "<group>"; };
-		25D7A34F1B6F3E5400DC4412 /* fts3_tokenizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fts3_tokenizer.h; sourceTree = "<group>"; };
-		25D7A3511B6F3E5400DC4412 /* FMDatabase+InMemoryOnDiskIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FMDatabase+InMemoryOnDiskIO.h"; sourceTree = "<group>"; };
-		25D7A3521B6F3E5400DC4412 /* FMDatabase+InMemoryOnDiskIO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FMDatabase+InMemoryOnDiskIO.m"; sourceTree = "<group>"; };
-		25D7A3571B6F3E5400DC4412 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
-		25D7A3581B6F3E5400DC4412 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
-		25D7A3591B6F3E5400DC4412 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
-		25D7A35A1B6F3E5400DC4412 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
-		25D7A35B1B6F3E5400DC4412 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
-		25D7A35C1B6F3E5400DC4412 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
-		25D7A35D1B6F3E5400DC4412 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
-		25D7A35E1B6F3E5400DC4412 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
-		25D7A35F1B6F3E5400DC4412 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
-		25D7A3601B6F3E5400DC4412 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
-		25D7A3611B6F3E5400DC4412 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
 		25D7A3701B6F415300DC4412 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		25D7A3721B6F438200DC4412 /* libobjc.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobjc.A.dylib; path = usr/lib/libobjc.A.dylib; sourceTree = SDKROOT; };
 		25D7A3741B6F43BC00DC4412 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -94,6 +82,9 @@
 		25D7A3781B6F46B900DC4412 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		25E05FFD1BABFFE800B380B8 /* NBDBConfigure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBDBConfigure.h; sourceTree = "<group>"; };
 		25E05FFE1BABFFE800B380B8 /* NBDBConfigure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBDBConfigure.m; sourceTree = "<group>"; };
+		75C0E7D17A11D4B86EC90731 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0B2D4083FA6447A48A0C703 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		FAB296573324EFD7C87CB019 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,7 +92,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25C601201BB0FEEB000983B2 /* Foundation.framework in Frameworks */,
 				25D7A37A1B6F46EF00DC4412 /* libsqlite3.0.dylib in Frameworks */,
+				ADB4B0C3A4D36538F452942D /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,6 +108,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		255B28881BB001EC00253567 /* DataBase */ = {
+			isa = PBXGroup;
+			children = (
+				255B28891BB0020200253567 /* NBCommonDataBase.h */,
+				255B288A1BB0020200253567 /* NBCommonDataBase.m */,
+				255B288C1BB0036200253567 /* NBUserDataBase.h */,
+				255B288D1BB0036200253567 /* NBUserDataBase.m */,
+				255B28951BB0094D00253567 /* Book.h */,
+				255B28961BB0094D00253567 /* Book.m */,
+				255B28981BB009E300253567 /* User.h */,
+				255B28991BB009E300253567 /* User.m */,
+			);
+			path = DataBase;
+			sourceTree = "<group>";
+		};
 		25CDAC971B6B765300C59432 = {
 			isa = PBXGroup;
 			children = (
@@ -123,11 +131,12 @@
 				25D7A3741B6F43BC00DC4412 /* CoreGraphics.framework */,
 				25D7A3721B6F438200DC4412 /* libobjc.A.dylib */,
 				25D7A3701B6F415300DC4412 /* Foundation.framework */,
-				25D7A3481B6F3E5400DC4412 /* src */,
 				25D7A3341B6F098500DC4412 /* NBDataBase */,
 				25CDACA21B6B765300C59432 /* NBDataBaseDemo */,
 				25CDACBC1B6B765300C59432 /* NBDataBaseDemoTests */,
 				25CDACA11B6B765300C59432 /* Products */,
+				9962B8C44FB6651CBD3A8408 /* Pods */,
+				3E71E88E4CF26DB8F668AAE5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -143,6 +152,7 @@
 		25CDACA21B6B765300C59432 /* NBDataBaseDemo */ = {
 			isa = PBXGroup;
 			children = (
+				255B28881BB001EC00253567 /* DataBase */,
 				25CDACA71B6B765300C59432 /* AppDelegate.h */,
 				25CDACA81B6B765300C59432 /* AppDelegate.m */,
 				25CDACAA1B6B765300C59432 /* ViewController.h */,
@@ -204,61 +214,21 @@
 			path = ../NBDataBase;
 			sourceTree = "<group>";
 		};
-		25D7A3481B6F3E5400DC4412 /* src */ = {
+		3E71E88E4CF26DB8F668AAE5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				25D7A3491B6F3E5400DC4412 /* extra */,
-				25D7A3561B6F3E5400DC4412 /* fmdb */,
+				75C0E7D17A11D4B86EC90731 /* libPods.a */,
 			);
-			path = src;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		25D7A3491B6F3E5400DC4412 /* extra */ = {
+		9962B8C44FB6651CBD3A8408 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				25D7A34A1B6F3E5400DC4412 /* fts3 */,
-				25D7A3501B6F3E5400DC4412 /* InMemoryOnDiskIO */,
+				C0B2D4083FA6447A48A0C703 /* Pods.debug.xcconfig */,
+				FAB296573324EFD7C87CB019 /* Pods.release.xcconfig */,
 			);
-			path = extra;
-			sourceTree = "<group>";
-		};
-		25D7A34A1B6F3E5400DC4412 /* fts3 */ = {
-			isa = PBXGroup;
-			children = (
-				25D7A34B1B6F3E5400DC4412 /* FMDatabase+FTS3.h */,
-				25D7A34C1B6F3E5400DC4412 /* FMDatabase+FTS3.m */,
-				25D7A34D1B6F3E5400DC4412 /* FMTokenizers.h */,
-				25D7A34E1B6F3E5400DC4412 /* FMTokenizers.m */,
-				25D7A34F1B6F3E5400DC4412 /* fts3_tokenizer.h */,
-			);
-			path = fts3;
-			sourceTree = "<group>";
-		};
-		25D7A3501B6F3E5400DC4412 /* InMemoryOnDiskIO */ = {
-			isa = PBXGroup;
-			children = (
-				25D7A3511B6F3E5400DC4412 /* FMDatabase+InMemoryOnDiskIO.h */,
-				25D7A3521B6F3E5400DC4412 /* FMDatabase+InMemoryOnDiskIO.m */,
-			);
-			path = InMemoryOnDiskIO;
-			sourceTree = "<group>";
-		};
-		25D7A3561B6F3E5400DC4412 /* fmdb */ = {
-			isa = PBXGroup;
-			children = (
-				25D7A3571B6F3E5400DC4412 /* FMDatabase.h */,
-				25D7A3581B6F3E5400DC4412 /* FMDatabase.m */,
-				25D7A3591B6F3E5400DC4412 /* FMDatabaseAdditions.h */,
-				25D7A35A1B6F3E5400DC4412 /* FMDatabaseAdditions.m */,
-				25D7A35B1B6F3E5400DC4412 /* FMDatabasePool.h */,
-				25D7A35C1B6F3E5400DC4412 /* FMDatabasePool.m */,
-				25D7A35D1B6F3E5400DC4412 /* FMDatabaseQueue.h */,
-				25D7A35E1B6F3E5400DC4412 /* FMDatabaseQueue.m */,
-				25D7A35F1B6F3E5400DC4412 /* FMDB.h */,
-				25D7A3601B6F3E5400DC4412 /* FMResultSet.h */,
-				25D7A3611B6F3E5400DC4412 /* FMResultSet.m */,
-			);
-			path = fmdb;
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -268,9 +238,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 25CDACC31B6B765300C59432 /* Build configuration list for PBXNativeTarget "NBDataBaseDemo" */;
 			buildPhases = (
+				70458044CE74CAEE426244C0 /* Check Pods Manifest.lock */,
 				25CDAC9C1B6B765300C59432 /* Sources */,
 				25CDAC9D1B6B765300C59432 /* Frameworks */,
 				25CDAC9E1B6B765300C59432 /* Resources */,
+				57FA9DEAC12C6161F5C0F985 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -356,29 +328,58 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		57FA9DEAC12C6161F5C0F985 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		70458044CE74CAEE426244C0 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		25CDAC9C1B6B765300C59432 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				255B288B1BB0020200253567 /* NBCommonDataBase.m in Sources */,
 				25E05FFF1BABFFE800B380B8 /* NBDBConfigure.m in Sources */,
 				25CDACAC1B6B765300C59432 /* ViewController.m in Sources */,
 				25D7A3421B6F098500DC4412 /* NBBaseDBTableModel.m in Sources */,
+				255B28971BB0094D00253567 /* Book.m in Sources */,
 				25D7A3451B6F098500DC4412 /* NBDBNameHelper.m in Sources */,
-				25D7A36A1B6F3E5400DC4412 /* FMDatabase.m in Sources */,
+				255B289A1BB009E300253567 /* User.m in Sources */,
 				25D7A3431B6F098500DC4412 /* NBDataBase.m in Sources */,
-				25D7A36E1B6F3E5400DC4412 /* FMResultSet.m in Sources */,
 				25CDACA91B6B765300C59432 /* AppDelegate.m in Sources */,
 				25CDACA61B6B765300C59432 /* main.m in Sources */,
-				25D7A36B1B6F3E5400DC4412 /* FMDatabaseAdditions.m in Sources */,
-				25D7A3661B6F3E5400DC4412 /* FMTokenizers.m in Sources */,
 				25D7A3471B6F098500DC4412 /* NBSQLStatementHelper.m in Sources */,
 				25D7A3461B6F098500DC4412 /* NBPrivateDataBase.m in Sources */,
 				25D7A3441B6F098500DC4412 /* NBDBHelper.m in Sources */,
-				25D7A3651B6F3E5400DC4412 /* FMDatabase+FTS3.m in Sources */,
-				25D7A3671B6F3E5400DC4412 /* FMDatabase+InMemoryOnDiskIO.m in Sources */,
-				25D7A36C1B6F3E5400DC4412 /* FMDatabasePool.m in Sources */,
-				25D7A36D1B6F3E5400DC4412 /* FMDatabaseQueue.m in Sources */,
+				255B288E1BB0036200253567 /* NBUserDataBase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,6 +505,7 @@
 		};
 		25CDACC41B6B765300C59432 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C0B2D4083FA6447A48A0C703 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = NBDataBaseDemo/Info.plist;
@@ -515,6 +517,7 @@
 		};
 		25CDACC51B6B765300C59432 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FAB296573324EFD7C87CB019 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = NBDataBaseDemo/Info.plist;

@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "NBDataBase"
-  s.version      = "0.0.3"
+  s.version      = “0.0.4”
   s.summary      = "an orm database."
 
   s.description  = <<-DESC
@@ -75,7 +75,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/zhfeng20108/NBDataBase.git", :tag => "0.0.3" }
+  s.source       = { :git => "https://github.com/zhfeng20108/NBDataBase.git", :tag => “0.0.4” }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -127,6 +127,6 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
-  s.dependency "FMDB"
+  s.dependency "FMDB/SQLCipher"
 
 end

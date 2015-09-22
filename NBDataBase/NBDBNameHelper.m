@@ -136,10 +136,9 @@ NSString *FMColumnNameFromPropertyName(NSString *propertyName)
 {
     //去前缀
     NSMutableString *muStr = [NSMutableString stringWithFormat:@"_%@",propertyName];
-    [muStr replaceOccurrencesOfString:PrimaryKey_Identify withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, muStr.length-1)];
-    [muStr replaceOccurrencesOfString:Notnull_Identify withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, muStr.length-1)];
-    [muStr replaceOccurrencesOfString:Dflt_value_Identify withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, muStr.length-1)];
-    [muStr replaceOccurrencesOfString:Security_Identify withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, muStr.length-1)];
+    [muStr replaceOccurrencesOfString:kNBPrimaryKey_Identify withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, muStr.length-1)];
+    [muStr replaceOccurrencesOfString:kNBNotnull_Identify withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, muStr.length-1)];
+    [muStr replaceOccurrencesOfString:kNBDflt_value_Identify withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, muStr.length-1)];
     
     return [NSString stringWithString:muStr];
 }

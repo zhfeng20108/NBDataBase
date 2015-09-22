@@ -11,12 +11,8 @@ static NSString *version_value;
 static NSString *secret_key;
 static NSString *current_userId;
 static BOOL is_encrypted = NO;
-static NSString *notification_name;
+static NSString *smallestEncrypteVersion;
 @implementation NBDBConfigure
-+ (void)setLogOutNotificationName:(NSString *)notificationName
-{
-    notification_name = notificationName;
-}
 
 + (void)setEncrypted:(BOOL)encrypted secretkey:(NSString *)secretkey
 {
@@ -27,6 +23,11 @@ static NSString *notification_name;
 + (void)setVersion:(NSString *)version
 {
     version_value = version;
+}
+
++ (void)setSmallestEncrypteVersion:(NSString *)version
+{
+    smallestEncrypteVersion = version;
 }
 
 + (void)setCurrentUserId:(NSString *)currentUserId
@@ -57,11 +58,11 @@ static NSString *notification_name;
     return is_encrypted;
 }
 
-+ (NSString *)logOutNotificationName
++ (NSString *)smallestEncrypteVersion
 {
-    NSAssert(notification_name.length>0, @"请配置私有数据库登出时的通知名");
-    return notification_name;
+    return smallestEncrypteVersion;
 }
+
 
 
 @end

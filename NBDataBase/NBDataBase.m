@@ -16,6 +16,7 @@
 #import "NBDBDefine.h"
 #import "FMDatabaseQueue.h"
 #import "NBDBConfigure.h"
+#import "NBPrivateDataBase.h"
 @interface NBDataBase ()
 
 //打开数据库
@@ -391,17 +392,33 @@
         }
     } else {//NSString,NSNumber
         NSAssert(columns&&[columns isKindOfClass:[NSString class]], @"columns不能为空");
-        if ([array.firstObject isKindOfClass:[NSString class]] || [array.firstObject isKindOfClass:[NSNumber class]]) {
+        if ([array.firstObject isKindOfClass:[NSString class]]) {
             if(array.count == 1) {
                 [self.fmdbQueue inDatabase:^(FMDatabase *db) {
                     NSObject *data = [array firstObject];
-                    NSString *sql = [NSString stringWithFormat:@"%@ into %@ (%@) values (%@)",replace?@"replace":@"insert",tableName,columns,data];
+                    NSString *sql = [NSString stringWithFormat:@"%@ into %@ (%@) values ('%@')",replace?@"replace":@"insert or ignore",tableName,columns,data];
                     [db executeUpdate:sql];
                 }];
             } else {
                 [self.fmdbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
                     for(NSObject *data in array){
-                        NSString *sql = [NSString stringWithFormat:@"%@ into %@ (%@) values (%@)",replace?@"replace":@"insert",tableName,columns,data];
+                        NSString *sql = [NSString stringWithFormat:@"%@ into %@ (%@) values ('%@')",replace?@"replace":@"insert or ignore",tableName,columns,data];
+                        [db executeUpdate:sql];
+                    }
+                }];
+            }
+            
+        } else if ([array.firstObject isKindOfClass:[NSNumber class]]) {
+            if(array.count == 1) {
+                [self.fmdbQueue inDatabase:^(FMDatabase *db) {
+                    NSObject *data = [array firstObject];
+                    NSString *sql = [NSString stringWithFormat:@"%@ into %@ (%@) values (%@)",replace?@"replace":@"insert or ignore",tableName,columns,data];
+                    [db executeUpdate:sql];
+                }];
+            } else {
+                [self.fmdbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+                    for(NSObject *data in array){
+                        NSString *sql = [NSString stringWithFormat:@"%@ into %@ (%@) values (%@)",replace?@"replace":@"insert or ignore",tableName,columns,data];
                         [db executeUpdate:sql];
                     }
                 }];
@@ -1116,11 +1133,10 @@
                 success = NO;
             } else {
                 [_fmdbQueue inDatabase:^(FMDatabase *db) {
-                    if ([NBDBConfigure isEncrypted]) {
+                    if ([self isNeedEncrypted]) {
                         [db setKey:[NBDBConfigure secretkey]];
-                    } else {
-                        [db setShouldCacheStatements:YES];
                     }
+                    [db setShouldCacheStatements:YES];
                 }];
             }
             
@@ -1163,21 +1179,24 @@
 - (NSString *)cacheVersionKey
 {
     NSString *uid = @"";
-    if ([[_dbPath lastPathComponent] rangeOfString:@"_common"].length == 0) {
+    if ([self isKindOfClass:[NBPrivateDataBase class]]) {
         uid = [NBDBConfigure currentUserId];
     }
     return [NSString stringWithFormat:@"%@_%@",uid,[_dbPath lastPathComponent]];
 }
 
+- (BOOL)isNeedEncrypted
+{
+    BOOL needEncrypte = NO;
+    if ([[NBDBConfigure version] compare:[NBDBConfigure smallestEncrypteVersion]] != NSOrderedAscending && [NBDBConfigure isEncrypted]) {
+        needEncrypte = YES;
+    }
+    return needEncrypte;
+}
 
 - (BOOL)isEncrypted
 {
-    BOOL b = [[[NSUserDefaults standardUserDefaults] valueForKey:[self cacheEncryptedStatusKey]] boolValue];
-    if ([[self cacheVersion] isEqualToString:@"0.0.1"] && !b) {
-        [self saveEncryptedStatus:YES];
-        b = YES;//0.0.1版本号是加过密的
-    }
-    return b;
+    return [[[NSUserDefaults standardUserDefaults] valueForKey:[self cacheEncryptedStatusKey]] boolValue];
 }
 
 - (void)saveEncryptedStatus:(BOOL)encrypted
@@ -1191,7 +1210,7 @@
 - (NSString *)cacheEncryptedStatusKey
 {
     NSString *uid = @"";
-    if ([[_dbPath lastPathComponent] rangeOfString:@"_common"].length == 0) {
+    if ([self isKindOfClass:[NBPrivateDataBase class]]) {
         uid = [NBDBConfigure currentUserId];
     }
     return [NSString stringWithFormat:@"%@_%@_EncryptedStatus",uid,[_dbPath lastPathComponent]];
@@ -1203,27 +1222,23 @@
 #pragma mark - 私有方法，升级整个数据库为加密数据库
 - (void)upgradeDatabase:(NSString *)path
 {
+    BOOL needEncrypte = [self isNeedEncrypted];
+    BOOL isEncrypted = [self isEncrypted];
+    
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if (![fileManager fileExistsAtPath:path])
     {
         //库文件不存在，不需要向下走
-        if ([NBDBConfigure isEncrypted]) {
+        if (needEncrypte) {
             [self saveEncryptedStatus:YES];
         } else {
             [self saveEncryptedStatus:NO];
         }
         return;
     }
-    if ([NBDBConfigure isEncrypted]) {
-        //需要升级数据库为加密数据库
-        //缓存的版本号
-        NSString *cacheVersion = [self cacheVersion];
-        if (cacheVersion && [cacheVersion compare:@"0.0.1"] != NSOrderedAscending && [self isEncrypted]) {
-            //前一个版本号 >= 0.0.1 直接返回
-            return;
-        }
-        
-        //前一个版本号小于0.0.1才升级为加密数据库并迁移数据
+    if (needEncrypte && isEncrypted) {//需要加密并且也加过密了
+        //啥也不做
+    } else if (needEncrypte && !isEncrypted) {//需要加密但尚未加密
         NSString *tmppath = [self changeDatabasePath:path];
         if(tmppath){
             const char* sqlQ = [[NSString stringWithFormat:@"ATTACH DATABASE '%@' AS encrypted KEY '%@';",path,[NBDBConfigure secretkey]] UTF8String];
@@ -1246,31 +1261,33 @@
                 NSAssert1(NO, @"Failed to open database with message ‘%s‘.", sqlite3_errmsg(unencrypted_DB));
             }
         }
-    } else {
+    } else if (!needEncrypte) {
         //先看数据库是否是加密的
-        if (![self isEncrypted]) {
-            return;//没有加密，直接返回
-        }
-        NSString *tmppath = [self changeDatabasePath:path];
-        if(tmppath){
-            const char* sqlQ = [[NSString stringWithFormat:@"ATTACH DATABASE '%@' AS encrypted KEY '%@';",path,[NBDBConfigure secretkey]] UTF8String];
-            sqlite3 *unencrypted_DB;
-            if (sqlite3_open([tmppath UTF8String], &unencrypted_DB) == SQLITE_OK) {
-                
-                // Attach empty encrypted database to unencrypted database
-                sqlite3_exec(unencrypted_DB, sqlQ, NULL, NULL, NULL);
-                // export database
-                sqlite3_exec(unencrypted_DB, "SELECT sqlcipher_export('encrypted');", NULL, NULL, NULL);
-                // Detach encrypted database
-                sqlite3_exec(unencrypted_DB, "DETACH DATABASE encrypted;", NULL, NULL, NULL);
-                sqlite3_close(unencrypted_DB);
-                //delete tmp database
-                [self removeDatabasePath:tmppath];
-                [self saveEncryptedStatus:NO];
-            }
-            else {
-                sqlite3_close(unencrypted_DB);
-                NSAssert1(NO, @"Failed to open database with message ‘%s‘.", sqlite3_errmsg(unencrypted_DB));
+        if (!isEncrypted) {
+            //没有加密，啥也不做
+        } else {
+            //解密
+            NSString *tmppath = [self changeDatabasePath:path];
+            if(tmppath){
+                const char* sqlQ = [[NSString stringWithFormat:@"ATTACH DATABASE '%@' AS encrypted KEY '%@';",path,[NBDBConfigure secretkey]] UTF8String];
+                sqlite3 *unencrypted_DB;
+                if (sqlite3_open([tmppath UTF8String], &unencrypted_DB) == SQLITE_OK) {
+                    
+                    // Attach empty encrypted database to unencrypted database
+                    sqlite3_exec(unencrypted_DB, sqlQ, NULL, NULL, NULL);
+                    // export database
+                    sqlite3_exec(unencrypted_DB, "SELECT sqlcipher_export('encrypted');", NULL, NULL, NULL);
+                    // Detach encrypted database
+                    sqlite3_exec(unencrypted_DB, "DETACH DATABASE encrypted;", NULL, NULL, NULL);
+                    sqlite3_close(unencrypted_DB);
+                    //delete tmp database
+                    [self removeDatabasePath:tmppath];
+                    [self saveEncryptedStatus:NO];
+                }
+                else {
+                    sqlite3_close(unencrypted_DB);
+                    NSAssert1(NO, @"Failed to open database with message ‘%s‘.", sqlite3_errmsg(unencrypted_DB));
+                }
             }
         }
     }

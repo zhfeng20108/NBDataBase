@@ -15,13 +15,13 @@
 //判断名字是否是数据库的字段名
 + (BOOL)isColumn:(NSString *)name
 {
-    return [name rangeOfString:NonColumn_Identify].location == NSNotFound;
+    return [name rangeOfString:kNBNonColumn_Identify].location == NSNotFound;
 }
 
 //判断是否是主键
 + (BOOL)isPrimaryKey:(NSString *)name
 {
-    return [name rangeOfString:PrimaryKey_Identify].location != NSNotFound;
+    return [name rangeOfString:kNBPrimaryKey_Identify].location != NSNotFound;
 }
 
 //把属性的类型type转成数据库里支持的类型

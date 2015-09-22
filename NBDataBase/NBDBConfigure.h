@@ -9,14 +9,14 @@
 #import <Foundation/Foundation.h>
 
 @interface NBDBConfigure : NSObject
-+ (void)setLogOutNotificationName:(NSString *)notificationName;
 + (void)setVersion:(NSString *)version;
++ (void)setSmallestEncrypteVersion:(NSString *)version;
 + (void)setEncrypted:(BOOL)encrypted secretkey:(NSString *)secretkey;
 + (void)setCurrentUserId:(NSString *)currentUserId;
 + (NSString *)version;
 + (NSString *)secretkey;
 + (NSString *)currentUserId;
 + (BOOL)isEncrypted;
-+ (NSString *)logOutNotificationName;
++ (NSString *)smallestEncrypteVersion;
 
 @end

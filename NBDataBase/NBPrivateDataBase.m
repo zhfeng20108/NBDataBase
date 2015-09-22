@@ -30,7 +30,7 @@
 {
     self = [super init];
     if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onLogOut) name:[NBDBConfigure logOutNotificationName] object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onLogOut) name:kNBLogOutNotificationName object:nil];
     }
     return self;
 }
