@@ -68,6 +68,51 @@
     return [[[self class] getDataBase] isExistsWithModel:self];
 }
 
+/// 入库，如果数据库已存在，是插入不进去的
+- (BOOL)saveToDBTable:(NSString *)tableName
+{
+    //数据插入,如果存在，保留原来数据
+    return [[[self class] getDataBase] insertToDBWithModel:self tableName:tableName replace:NO];
+}
+
+/// 以更新的方式入库，会更新掉所有的字段，如果数据库里不存在这条记录，就会插入
+- (void)saveToDBUseUpdateInTable:(NSString *)tableName
+{
+    //数据插入
+    return [[[self class] getDataBase] insertToDBWithModel:self tableName:tableName update:YES];
+}
+
+/// 以替换的方式入库，如果数据库已存在记录则替换掉原来的记录，否则就直接插入
+- (BOOL)saveToDBUseReplaceInTable:(NSString *)tableName
+{
+    //数据插入
+    return [[[self class] getDataBase] insertToDBWithModel:self tableName:tableName replace:YES];
+}
+
+/// 插入或更新指定的字段
+- (BOOL)saveToDBTable:(NSString *)tableName updateColumns:(id)columns
+{
+    return [[[self class] getDataBase] insertToDBWithModel:self tableName:tableName update:YES columns:columns];
+}
+
+/// 更新指定的字段
+- (BOOL)updateDBTable:(NSString *)tableName columns:(id)columns
+{
+    return [[[self class] getDataBase] updateWithModel:self tableName:tableName set:columns where:nil];
+}
+
+/// 自动取主键，删记录
+- (BOOL)deleteFromDBTable:(NSString *)tableName
+{
+    return [[[self class] getDataBase] deleteRecordWithModel:self tableName:tableName];
+}
+
+/// 检查表中是否存在这条记录
+-(BOOL)isExistsFromDBTable:(NSString *)tableName
+{
+    return [[[self class] getDataBase] isExistsWithModel:self tableName:tableName];
+}
+
 #pragma mark - NBDBTableModelProtocol
 +(NBDataBase *)getDataBase;
 {

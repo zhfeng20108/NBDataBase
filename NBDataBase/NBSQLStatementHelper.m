@@ -26,12 +26,19 @@ NSMutableArray *extractWhereSql(NSMutableString *__autoreleasing *sql,id where,B
 
 NSString *createTableSQL(Class modelClass)
 {
-    NSString *tableName = [modelClass performSelector:@selector(getTableName)];
+    return createTableSQLWithTableName(modelClass,nil);
+}
+
+NSString *createTableSQLWithTableName(Class tableClass,NSString *tableName)
+{
+    if (!tableName) {
+        tableName = [tableClass performSelector:@selector(getTableName)];
+    }
     if (tableName == nil) {
         return nil;
     }
     unsigned int outCount;
-    Class c = modelClass;
+    Class c = tableClass;
     NSString *classString = NSStringFromClass(c);
     NSString *objectString = NSStringFromClass(NSObject.class);
     NSMutableString* table_pars = [NSMutableString string];
@@ -90,7 +97,7 @@ NSString *createTableSQL(Class modelClass)
     NSMutableString* pksb = [NSMutableString string];
     
     ///联合主键
-    NSArray *primaryKeys = [NBDBHelper getPrimaryKeys:modelClass];
+    NSArray *primaryKeys = [NBDBHelper getPrimaryKeys:tableClass];
     
     if(primaryKeys.count>0)
     {
@@ -115,6 +122,7 @@ NSString *createTableSQL(Class modelClass)
     }
     return [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS %@ (%@%@)",tableName,table_pars,pksb];
 }
+
 
 NSString *createSelectSQL(Class modelClass,NSString *fieldName)
 {
@@ -451,6 +459,22 @@ NSString *createInsertSQLWithModelAndBeginClass(NBBaseDBTableModel *model,Class 
 NSString *createDeleteSQL(NBBaseDBTableModel *model,id where,NSMutableArray *__autoreleasing *deleteValues)
 {
     NSString *tableName = [[model class] performSelector:@selector(getTableName)];
+    NSMutableString* deleteSQL = [NSMutableString stringWithFormat:@"DELETE FROM %@",tableName];
+    NSError *error = nil;
+    NSMutableArray *array = extractWhereSql(&deleteSQL, where, YES, model,&error);
+    if (error) {
+        return nil;
+    }
+    *deleteValues = array;
+    return [NSString stringWithString:deleteSQL];
+    
+}
+
+NSString *createDeleteSQLWithModelAndTableName(NBBaseDBTableModel *model,NSString *tableName,id where,NSMutableArray *__autoreleasing *deleteValues)
+{
+    if (!tableName) {
+        tableName = [[model class] performSelector:@selector(getTableName)];
+    }
     NSMutableString* deleteSQL = [NSMutableString stringWithFormat:@"DELETE FROM %@",tableName];
     NSError *error = nil;
     NSMutableArray *array = extractWhereSql(&deleteSQL, where, YES, model,&error);

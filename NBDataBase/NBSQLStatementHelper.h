@@ -18,6 +18,7 @@
 
 //生成建表的sql语句
 NSString *createTableSQL(Class modelClass);
+NSString *createTableSQLWithTableName(Class tableClass,NSString *tableName);
 //生成插入语句
 NSString *createInsertSQL(NBBaseDBTableModel *model,NSString *tableName,BOOL replace,NSMutableArray * __autoreleasing * insertValues);
 //生成插入语句
@@ -46,6 +47,8 @@ NSString *createSelectSQLWithTableName(NSString *tableName,NSString *fieldName);
 
 //生成删除语句
 NSString *createDeleteSQL(NBBaseDBTableModel *model,id where,NSMutableArray *__autoreleasing*deleteValues);
+/// 生成删除语句
+NSString *createDeleteSQLWithModelAndTableName(NBBaseDBTableModel *model,NSString *tableName,id where,NSMutableArray *__autoreleasing *deleteValues);
 //生成删除语句
 NSString *createDeleteSQLWithTableName(NSString *tableName,id where,NSMutableArray *__autoreleasing *deleteValues);
 

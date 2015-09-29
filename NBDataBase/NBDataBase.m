@@ -395,12 +395,43 @@
 #pragma mark - - 插入一条记录 自定义tableName
 - (BOOL)insertToDBWithModel:(NBBaseDBTableModel *)model
                   tableName:(NSString *)tableName
+                     update:(BOOL)update
+                    columns:(id)columns;
+{
+    NSAssert(model, @"model 不能为空");
+    NSAssert(columns, @"columns 不能为空");
+    __block BOOL execute = NO;
+    
+    //查询有没有这条记录
+    if (update&&[self isExistsWithModel:model tableName:tableName]) {//走更新操作
+        NSMutableArray *updateValues = nil;
+        NSString *sql = createUpdateSQLWithModelAndTableName(model, tableName, columns, nil, &updateValues);
+        if (sql) {
+            //更新操作
+            [self.fmdbQueue inDatabase:^(FMDatabase *db) {
+                if (updateValues.count > 0) {
+                    execute = [db executeUpdate:sql withArgumentsInArray:updateValues];
+                } else {
+                    execute = [db executeUpdate:sql];
+                }
+            }];
+        }
+        
+    } else {
+        //插入操作
+        execute = [self insertToDBWithModel:model tableName:tableName replace:NO];
+    }
+    return execute;
+}
+- (BOOL)insertToDBWithModel:(NBBaseDBTableModel *)model
+                  tableName:(NSString *)tableName
                     replace:(BOOL)replace
 {
     NSAssert(model, @"model 不能为空");
     NSAssert(tableName, @"tableName 不能为空");
     __block BOOL execute = NO;
     [self.fmdbQueue inDatabase:^(FMDatabase *db) {
+        [self createTableIfNotExists:db tableClass:model.class tableName:tableName];
         NSMutableArray *insertValues = nil;
         NSString *sql = createInsertSQL(model, tableName, replace, &insertValues);
         if (sql) {
@@ -411,6 +442,7 @@
     }];
     return execute;
 }
+
 
 - (BOOL)insertToDBWithModel:(NBBaseDBTableModel *)model
                   tableName:(NSString *)tableName
@@ -528,6 +560,7 @@
             [self insertToDBWithModel:[array firstObject] tableName:tableName replace:replace];
         } else {//开启事务
             [self.fmdbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+                [self createTableIfNotExists:db tableClass:[[array firstObject] class] tableName:tableName];
                 for(NBBaseDBTableModel *data in array){
                     NSMutableArray *insertValues = nil;
                     NSString *sql = createInsertSQL(data,tableName,replace, &insertValues);
@@ -557,6 +590,7 @@
     if ([array.firstObject isKindOfClass:[NBBaseDBTableModel class]]){//自定义对象
         if (array.count == 1) {
             [self.fmdbQueue inDatabase:^(FMDatabase *db) {
+                [self createTableIfNotExists:db tableClass:[[array firstObject] class] tableName:tableName];
                 NBBaseDBTableModel *data = [array firstObject];
                 NSMutableArray *insertValues = nil;
                 NSString *sql = createInsertSQLWithColumns(data,tableName,columns, replace, &insertValues);
@@ -568,6 +602,7 @@
             }];
         } else {//开启事务
             [self.fmdbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+                [self createTableIfNotExists:db tableClass:[[array firstObject] class] tableName:tableName];
                 for(NBBaseDBTableModel *data in array){
                     NSMutableArray *insertValues = nil;
                     NSString *sql = createInsertSQLWithColumns(data,tableName,columns, replace, &insertValues);
@@ -584,12 +619,14 @@
         if ([array.firstObject isKindOfClass:[NSString class]]) {
             if(array.count == 1) {
                 [self.fmdbQueue inDatabase:^(FMDatabase *db) {
+                    [self createTableIfNotExists:db tableClass:[[array firstObject] class] tableName:tableName];
                     NSObject *data = [array firstObject];
                     NSString *sql = [NSString stringWithFormat:@"%@ into %@ (%@) values ('%@')",replace?@"replace":@"insert or ignore",tableName,columns,data];
                     [db executeUpdate:sql];
                 }];
             } else {
                 [self.fmdbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+                    [self createTableIfNotExists:db tableClass:[[array firstObject] class] tableName:tableName];
                     for(NSObject *data in array){
                         NSString *sql = [NSString stringWithFormat:@"%@ into %@ (%@) values ('%@')",replace?@"replace":@"insert or ignore",tableName,columns,data];
                         [db executeUpdate:sql];
@@ -600,12 +637,14 @@
         } else if ([array.firstObject isKindOfClass:[NSNumber class]]) {
             if(array.count == 1) {
                 [self.fmdbQueue inDatabase:^(FMDatabase *db) {
+                    [self createTableIfNotExists:db tableClass:[[array firstObject] class] tableName:tableName];
                     NSObject *data = [array firstObject];
                     NSString *sql = [NSString stringWithFormat:@"%@ into %@ (%@) values (%@)",replace?@"replace":@"insert or ignore",tableName,columns,data];
                     [db executeUpdate:sql];
                 }];
             } else {
                 [self.fmdbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+                    [self createTableIfNotExists:db tableClass:[[array firstObject] class] tableName:tableName];
                     for(NSObject *data in array){
                         NSString *sql = [NSString stringWithFormat:@"%@ into %@ (%@) values (%@)",replace?@"replace":@"insert or ignore",tableName,columns,data];
                         [db executeUpdate:sql];
@@ -640,6 +679,7 @@
     } else {
         if(array.count==1) {
             [self.fmdbQueue inDatabase:^(FMDatabase *db) {
+                [self createTableIfNotExists:db tableClass:[[array firstObject] class] tableName:tableName];
                 //获取表信息
                 FMResultSet *rs = [db getTableSchema:tableName];
                 NSMutableArray *keyArray = [[NSMutableArray alloc] init];
@@ -698,6 +738,7 @@
             }];
         } else {
             [self.fmdbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+                [self createTableIfNotExists:db tableClass:[[array firstObject] class] tableName:tableName];
                 //获取表信息
                 FMResultSet *rs = [db getTableSchema:tableName];
                 NSMutableArray *keyArray = [[NSMutableArray alloc] init];
@@ -811,6 +852,32 @@
 }
 
 #pragma mark - 删除操作 自定义tableName
+- (BOOL)deleteRecordWithModel:(NBBaseDBTableModel *)model tableName:(NSString *)tableName;
+{
+    if (!model) {
+        NSAssert(model, @"model 不能为空");
+        return NO;
+    }
+    __block BOOL execute = NO;
+    
+    NSMutableArray *deleteValues = nil;
+    //sql语句
+    NSString *sql = createDeleteSQLWithModelAndTableName(model, tableName,nil,&deleteValues);
+    if (sql) {
+        //删除操作
+        [self.fmdbQueue inDatabase:^(FMDatabase *db) {
+            if (deleteValues.count > 0) {
+                execute = [db executeUpdate:sql withArgumentsInArray:deleteValues];
+            } else {
+                execute = [db executeUpdate:sql];
+            }
+        }];
+    }
+    
+    
+    return execute;
+}
+
 // 删除记录
 - (BOOL)deleteRecordFromTableName:(NSString *)tableName where:(id)where;
 {
@@ -1675,6 +1742,7 @@
     return [self isExistTableName:tableName];
 }
 
+#pragma mark - 是否存在记录 自定义tableName
 //是否有对应的表
 - (BOOL)isExistTableName:(NSString *)tableName
 {
@@ -1682,6 +1750,34 @@
     __block BOOL isExist = NO;
     [self.fmdbQueue inDatabase:^(FMDatabase *db) {
         isExist = [db tableExists:tableName];
+    }];
+    return isExist;
+}
+
+- (BOOL)isExistsWithModel:(NBBaseDBTableModel *)model tableName:(NSString *)tableName;
+{
+    __block BOOL isExist = NO;
+    NSMutableArray *primaryKeyValues = nil;
+    NSString *sql = createSelectSQLWithPrimaryKeyAndTableName(model,tableName,nil,&primaryKeyValues);
+    if (!sql) {
+        return NO;
+    }
+    [self.fmdbQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet *rs = nil;
+        if (primaryKeyValues.count > 0) {
+            rs = [db executeQuery:sql withArgumentsInArray:primaryKeyValues];
+        } else {
+            rs = [db executeQuery:sql];
+        }
+        NSDictionary *infoDict = nil;
+        while ([rs next]) {
+            infoDict = [rs resultDictionary];
+            break;
+        }
+        [rs close];
+        if (infoDict) {
+            isExist = YES;
+        }
     }];
     return isExist;
 }
@@ -1938,6 +2034,17 @@
         [set close];
     }];
     return results;
+}
+
+- (void)createTableIfNotExists:(FMDatabase *)db tableClass:(Class)tableClass tableName:(NSString *)tableName
+{
+    if (![db tableExists:tableName]) {
+        //表不存在，就创建
+        NSString *sql = createTableSQLWithTableName(tableClass,tableName);
+        if (sql) {
+            [db executeUpdate:sql];
+        }
+    }
 }
 
 

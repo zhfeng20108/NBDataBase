@@ -231,6 +231,10 @@
 #pragma mark - - 插入一条记录 自定义tableName
 - (BOOL)insertToDBWithModel:(NBBaseDBTableModel *)model
                   tableName:(NSString *)tableName
+                     update:(BOOL)update
+                    columns:(id)columns;
+- (BOOL)insertToDBWithModel:(NBBaseDBTableModel *)model
+                  tableName:(NSString *)tableName
                     replace:(BOOL)replace;
 - (BOOL)insertToDBWithModel:(NBBaseDBTableModel *)model
                   tableName:(NSString *)tableName;
@@ -261,11 +265,13 @@
                          update:(BOOL)update;
 
 #pragma mark - 删除操作 自定义tableName
-// 删除记录
+/// 删除记录
+- (BOOL)deleteRecordWithModel:(NBBaseDBTableModel *)model tableName:(NSString *)tableName;
+/// 删除记录
 - (BOOL)deleteRecordFromTableName:(NSString *)tableName where:(id)where;
-//删除表
+/// 删除表
 - (BOOL)deleteTableName:(NSString *)tableName;
-//清除表-清数据
+/// 清除表-清数据
 - (BOOL)eraseTableName:(NSString *)tableName;
 
 
@@ -356,6 +362,10 @@
                         tableName:(NSString *)tableName
                             where:(id)where
                           orderBy:(NSString *)orderBy;
-
+#pragma mark - 是否存在记录 自定义tableName
+/// 是否有对应的表
+- (BOOL)isExistTableName:(NSString *)tableName;
+/// 是否存在记录
+- (BOOL)isExistsWithModel:(NBBaseDBTableModel *)model tableName:(NSString *)tableName;
 
 @end
