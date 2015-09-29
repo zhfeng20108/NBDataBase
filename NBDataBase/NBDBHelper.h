@@ -57,6 +57,8 @@
 @property(assign,nonatomic)Class toClass;//数据出库的类
 @property(assign,nonatomic)Class tableClass;//主表对应的model类
 @property(assign,nonatomic)Class followTableClass;//左连接第二个表对应的类
+@property(assign,nonatomic)NSString *tableName;//主表对应的model类
+@property(assign,nonatomic)NSString *followTableName;//左连接第二个表对应的类
 @property(assign,nonatomic)BOOL usePrimaryKeyIfWhereIsNil;//where条件为空时，是否使用主键
 
 

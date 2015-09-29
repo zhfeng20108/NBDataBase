@@ -29,6 +29,7 @@ NSString *createInsertSQLWithModelAndBeginClass(NBBaseDBTableModel *model,Class 
 NSString *createUpdateSQL(NBBaseDBTableModel *model,id sets,id where,NSMutableArray *__autoreleasing *updateValues);
 //生成更新语句
 NSString *createUpdateSQLWithModelAndTableClass(NBBaseDBTableModel *model,Class tableClass,id sets,id where,NSMutableArray *__autoreleasing *updateValues);
+NSString *createUpdateSQLWithModelAndTableName(NBBaseDBTableModel *model,NSString *tableName,id sets,id where,NSMutableArray *__autoreleasing *updateValues);
 //生成更新语句
 NSString *createUpdateSQLWithTableName(NSString *tableName, id sets,id where,NSMutableArray *__autoreleasing *updateValues);
 
@@ -38,8 +39,10 @@ NSString *createSelectSQLWithParams(NBDBQueryParams *params,NSMutableArray *__au
 NSString *createUnionSelectSQLWithParams(NBDBQueryParams *params,NSMutableArray *__autoreleasing *selectValues);
 //生成查询语句
 NSString *createSelectSQLWithPrimaryKey(NBBaseDBTableModel *model,NSString *fieldName,NSMutableArray *__autoreleasing *primaryKeyValues);
+NSString *createSelectSQLWithPrimaryKeyAndTableName(NBBaseDBTableModel *model,NSString *tableName,NSString *fieldName,NSMutableArray *__autoreleasing *primaryKeyValues);
 //生成查询语句
 NSString *createSelectSQL(Class modelClass,NSString *fieldName);
+NSString *createSelectSQLWithTableName(NSString *tableName,NSString *fieldName);
 
 //生成删除语句
 NSString *createDeleteSQL(NBBaseDBTableModel *model,id where,NSMutableArray *__autoreleasing*deleteValues);

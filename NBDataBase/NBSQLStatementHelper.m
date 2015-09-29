@@ -119,6 +119,11 @@ NSString *createTableSQL(Class modelClass)
 NSString *createSelectSQL(Class modelClass,NSString *fieldName)
 {
     NSString *tableName = [modelClass performSelector:@selector(getTableName)];
+    return createSelectSQLWithTableName(tableName,fieldName);
+}
+
+NSString *createSelectSQLWithTableName(NSString *tableName,NSString *fieldName)
+{
     if (!tableName) {
         return nil;
     }
@@ -131,7 +136,11 @@ NSString *createSelectSQL(Class modelClass,NSString *fieldName)
 NSString *createSelectSQLWithPrimaryKey(NBBaseDBTableModel *model,NSString *fieldName,NSMutableArray *__autoreleasing *primaryKeyValues)
 {
     NSString *tableName = [[model class] performSelector:@selector(getTableName)];
+    return createSelectSQLWithPrimaryKeyAndTableName(model,tableName, fieldName, primaryKeyValues);
+}
 
+NSString *createSelectSQLWithPrimaryKeyAndTableName(NBBaseDBTableModel *model,NSString *tableName,NSString *fieldName,NSMutableArray *__autoreleasing *primaryKeyValues)
+{
     if (!tableName) {
         return nil;
     }
@@ -143,7 +152,15 @@ NSString *createSelectSQLWithPrimaryKey(NBBaseDBTableModel *model,NSString *fiel
     
     return selectSql;
 }
+
+
 NSString *createUpdateSQLWithModelAndTableClass(NBBaseDBTableModel *model,Class tableClass,id sets,id where,NSMutableArray *__autoreleasing *updateValues)
+{
+    NSString *tableName = [tableClass performSelector:@selector(getTableName)];
+    return createUpdateSQLWithModelAndTableName(model,tableName, sets,where, updateValues);
+}
+
+NSString *createUpdateSQLWithModelAndTableName(NBBaseDBTableModel *model,NSString *tableName,id sets,id where,NSMutableArray *__autoreleasing *updateValues)
 {
     if(!updateValues)
         return nil;
@@ -216,7 +233,7 @@ NSString *createUpdateSQLWithModelAndTableClass(NBBaseDBTableModel *model,Class 
         classString = NSStringFromClass(c);
         free(properties);
     }
-    NSMutableString* updateSQL = [NSMutableString stringWithFormat:@"update %@ set %@ ",[tableClass performSelector:@selector(getTableName)],updateKey];
+    NSMutableString* updateSQL = [NSMutableString stringWithFormat:@"update %@ set %@ ",tableName,updateKey];
     
     //添加where 语句
     NSError *error = nil;
@@ -228,6 +245,7 @@ NSString *createUpdateSQLWithModelAndTableClass(NBBaseDBTableModel *model,Class 
     
     return [NSString stringWithString:updateSQL];
 }
+
 NSString *createUpdateSQLWithTableName(NSString *tableName, id sets,id where,NSMutableArray *__autoreleasing *updateValues)
 {
     if(!updateValues)
@@ -627,7 +645,10 @@ NSString *createSelectSQLWithParams(NBDBQueryParams *params,NSMutableArray *__au
         return nil;
     }
     
-    NSString* db_tableName = [params.tableClass getTableName];
+    NSString* db_tableName = params.tableName;
+    if (!db_tableName) {
+        db_tableName = [params.tableClass getTableName];
+    }
     if (!db_tableName) {
         db_tableName = [params.toClass getTableName];
     }
@@ -676,7 +697,10 @@ NSString *createUnionSelectSQLWithParams(NBDBQueryParams *params,NSMutableArray 
         return nil;
     }
     
-    NSString* mainTableName = [params.tableClass getTableName];
+    NSString* mainTableName = params.tableName;
+    if (!mainTableName) {
+        mainTableName = [params.tableClass getTableName];
+    }
     if (!mainTableName) {
         mainTableName = [params.toClass getTableName];
     }
@@ -686,7 +710,10 @@ NSString *createUnionSelectSQLWithParams(NBDBQueryParams *params,NSMutableArray 
         return nil;
     }
     
-    NSString *followTableName = [params.followTableClass getTableName];
+    NSString *followTableName = params.followTableName;
+    if (!followTableName) {
+        followTableName = [params.followTableClass getTableName];
+    }
     
     *selectValues = [[NSMutableArray alloc] init];
     NSMutableString* columnsString = [NSMutableString string];

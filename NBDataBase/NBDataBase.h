@@ -32,6 +32,11 @@
 
 /// 数据库升级
 + (void)updateTableInDB;
+/// 动态建一批表
++ (void)createTable:(Class)tableClass tableNames:(NSArray *)tableNameArray;
+/// 动态建一张表
++ (void)createTable:(Class)tableClass tableName:(NSString *)tableName;
+
 /// 关闭数据库
 - (void)closeDB;
 
@@ -47,6 +52,9 @@
 - (BOOL)insertToDBWithModel:(NBBaseDBTableModel *)model
                       table:(Class )tableClass
                     replace:(BOOL)replace;
+- (BOOL)insertToDBWithModel:(NBBaseDBTableModel *)model
+                  tableName:(NSString *)tableName
+                    replace:(BOOL)replace;
 
 - (BOOL)insertToDBWithModel:(NBBaseDBTableModel *)model update:(BOOL)update;
 - (BOOL)insertToDBWithModel:(NBBaseDBTableModel *)model
@@ -54,6 +62,8 @@
                     columns:(id)columns;
 - (BOOL)insertToDBWithModel:(NBBaseDBTableModel *)model
                       table:(Class )tableClass;
+- (BOOL)insertToDBWithModel:(NBBaseDBTableModel *)model
+                  tableName:(NSString *)tableName;
 - (void)insertToDBWithModel:(NBBaseDBTableModel *)model
                       table:(Class )tableClass
                      update:(BOOL)update;
