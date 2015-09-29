@@ -52,9 +52,6 @@
 - (BOOL)insertToDBWithModel:(NBBaseDBTableModel *)model
                       table:(Class )tableClass
                     replace:(BOOL)replace;
-- (BOOL)insertToDBWithModel:(NBBaseDBTableModel *)model
-                  tableName:(NSString *)tableName
-                    replace:(BOOL)replace;
 
 - (BOOL)insertToDBWithModel:(NBBaseDBTableModel *)model update:(BOOL)update;
 - (BOOL)insertToDBWithModel:(NBBaseDBTableModel *)model
@@ -62,8 +59,6 @@
                     columns:(id)columns;
 - (BOOL)insertToDBWithModel:(NBBaseDBTableModel *)model
                       table:(Class )tableClass;
-- (BOOL)insertToDBWithModel:(NBBaseDBTableModel *)model
-                  tableName:(NSString *)tableName;
 - (void)insertToDBWithModel:(NBBaseDBTableModel *)model
                       table:(Class )tableClass
                      update:(BOOL)update;
@@ -231,6 +226,136 @@
 /// 查询某条记录是否存在
 - (BOOL)isExistsWithModel:(NBBaseDBTableModel *)model;
 
+
+
+#pragma mark - - 插入一条记录 自定义tableName
+- (BOOL)insertToDBWithModel:(NBBaseDBTableModel *)model
+                  tableName:(NSString *)tableName
+                    replace:(BOOL)replace;
+- (BOOL)insertToDBWithModel:(NBBaseDBTableModel *)model
+                  tableName:(NSString *)tableName;
+- (void)insertToDBWithModel:(NBBaseDBTableModel *)model
+                  tableName:(NSString *)tableName
+                     update:(BOOL)update;
+
+#pragma mark - - 插入一条以上记录 自定义tableName
+- (void)insertToDBWithDataArray:(NSArray *)array
+                      tableName:(NSString *)tableName;
+
+- (void)insertToDBWithDataArray:(NSArray *)array
+                      tableName:(NSString *)tableName
+                        replace:(BOOL)replace;
+
+- (void)insertToDBWithDataArray:(NSArray *)array
+                      tableName:(NSString *)tableName
+                        columns:(id)columns
+                        replace:(BOOL)replace;
+
+- (void)insertToDBWithDataArray:(NSArray *)array
+                      tableName:(NSString *)tableName
+                         update:(BOOL)update;
+
+- (void)insertToDBWithDataArray:(NSArray *)array
+                      tableName:(NSString *)tableName
+                        columns:(id)columns
+                         update:(BOOL)update;
+
+#pragma mark - 删除操作 自定义tableName
+// 删除记录
+- (BOOL)deleteRecordFromTableName:(NSString *)tableName where:(id)where;
+//删除表
+- (BOOL)deleteTableName:(NSString *)tableName;
+//清除表-清数据
+- (BOOL)eraseTableName:(NSString *)tableName;
+
+
+#pragma mark - 更新操作 自定义tableName
+-(BOOL)updateWithModel:(NBBaseDBTableModel *)model
+             tableName:(NSString *)tableName
+                   set:(id)sets
+                 where:(id)where;
+
+#pragma mark- - 查询多条数据（出库的modelClass和数据库表对应的tableName不一样的情况下使用以下接口）
+-(NSMutableArray *)query:(Class)modelClass
+               tableName:(NSString *)tableName;
+-(NSMutableArray *)query:(Class)modelClass
+               tableName:(NSString *)tableName
+                   where:(id)where;
+-(NSMutableArray *)query:(Class)modelClass
+               tableName:(NSString *)tableName
+                   where:(id)where
+                 orderBy:(NSString *)orderBy;
+-(NSMutableArray *)query:(Class)modelClass
+               tableName:(NSString *)tableName
+                   where:(id)where
+                 orderBy:(NSString *)orderBy
+                  offset:(NSInteger)offset
+                   count:(NSInteger)count;
+-(NSMutableArray *)query:(Class)modelClass
+               tableName:(NSString *)tableName
+                 columns:(id)columns;
+-(NSMutableArray *)query:(Class)modelClass
+               tableName:(NSString *)tableName
+                 columns:(id)columns
+                   where:(id)where;
+-(NSMutableArray *)query:(Class)modelClass
+               tableName:(NSString *)tableName
+                 columns:(id)columns
+                   where:(id)where
+                 orderBy:(NSString *)orderBy;
+-(NSMutableArray *)query:(Class)modelClass
+               tableName:(NSString *)tableName
+                 columns:(id)columns
+                   where:(id)where
+                 orderBy:(NSString *)orderBy
+                  offset:(NSInteger)offset
+                   count:(NSInteger)count;
+-(NSMutableArray *)query:(Class)modelClass
+               tableName:(NSString *)tableName
+         followTableName:(NSString *)followTableName
+                 columns:(id)columns
+           followColumns:(id)followColumns
+         leftJoinColumns:(id)leftJoinColumns
+                   where:(id)where
+             followWhere:(id)followWhere
+                 orderBy:(NSString *)orderBy
+                  offset:(NSInteger)offset
+                   count:(NSInteger)count;
+
+#pragma mark- 查询一条数据 自定义tableName
+// 整型
+- (NSInteger)queryIntegerdataWithTableName:(NSString *)tableName fieldName:(NSString *)fieldName;
+// 整型
+- (NSInteger)queryIntegerdataWithTableName:(NSString *)tableName
+                                 fieldName:(NSString *)fieldName
+                                     where:(id)where;
+
+// 布尔型
+- (BOOL)queryBooldataWithTableName:(NSString *)tableName fieldName:(NSString *)fieldName;
+
+// 布尔型
+- (BOOL)queryBooldataWithTableName:(NSString *)tableName fieldName:(NSString *)fieldName where:(id)where;
+
+// 字符串型
+- (NSString *)queryStringdataWithTableName:(NSString *)tableName fieldName:(NSString *)fieldName;
+// 字符串型
+- (NSString *)queryStringdataWithTableName:(NSString *)tableName
+                                 fieldName:(NSString *)fieldName
+                                     where:(id)where;
+
+// 二进制数据型
+- (NSData *)queryBlobdataWithTableName:(NSString *)tableName fieldName:(NSString *)fieldName;
+
+// 自定义对象
+- (NBBaseDBTableModel *)queryData:(Class)modelClass
+                        tableName:(NSString *)tableName
+                            where:(id)where;
+
+// 自定义对象
+- (NBBaseDBTableModel *)queryData:(Class)modelClass
+                        tableName:(NSString *)tableName
+                            where:(id)where
+                          orderBy:(NSString *)orderBy;
 
 
 @end

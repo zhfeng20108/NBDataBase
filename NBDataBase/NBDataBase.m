@@ -941,7 +941,6 @@
                    set:(id)sets
                  where:(id)where
 {
-    // TODO: 需要重新实现
     if(model == nil) {
         NSAssert(model, @"model 不能为空");
         return NO;
@@ -954,20 +953,20 @@
     
     __block BOOL execute = NO;
     
-//    [self.fmdbQueue inDatabase:^(FMDatabase *db) {
-//        //生成更新语句
-//        NSMutableArray *updateValues = nil;
-//        NSString *updateSql = createUpdateSQLWithModelAndTableClass(model, tableClass,sets, where, &updateValues);
-//        //NSLog(@"%@",updateSql);
-//        if (updateSql) {
-//            if (updateValues.count > 0) {
-//                execute = [db executeUpdate:updateSql withArgumentsInArray:updateValues];
-//            } else {
-//                execute = [db executeUpdate:updateSql];
-//            }
-//        }
-//        
-//    }];
+    [self.fmdbQueue inDatabase:^(FMDatabase *db) {
+        //生成更新语句
+        NSMutableArray *updateValues = nil;
+        NSString *updateSql = createUpdateSQLWithModelAndTableName(model, tableName,sets, where, &updateValues);
+        //NSLog(@"%@",updateSql);
+        if (updateSql) {
+            if (updateValues.count > 0) {
+                execute = [db executeUpdate:updateSql withArgumentsInArray:updateValues];
+            } else {
+                execute = [db executeUpdate:updateSql];
+            }
+        }
+        
+    }];
     
     return execute;
 }
