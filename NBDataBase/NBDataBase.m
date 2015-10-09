@@ -977,6 +977,14 @@
 -(BOOL)updateTable:(Class)modelClass set:(id)sets where:(id)where
 {
     NSString *tableName = [modelClass getTableName];
+    return [self updateTableName:tableName set:sets where:where];
+}
+
+#pragma mark - 更新操作 自定义tableName
+-(BOOL)updateTableName:(NSString *)tableName
+                   set:(id)sets
+                 where:(id)where
+{
     if(tableName.length == 0) {
         NSAssert(tableName.length>0, @"tableName 不能为空");
         return NO;
@@ -1002,7 +1010,6 @@
     return execute;
 }
 
-#pragma mark - 更新操作 自定义tableName
 -(BOOL)updateWithModel:(NBBaseDBTableModel *)model
              tableName:(NSString *)tableName
                    set:(id)sets

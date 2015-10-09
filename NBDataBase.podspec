@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "NBDataBase"
-  s.version      = "0.0.7"
+  s.version      = "0.0.8"
   s.summary      = "an orm database."
 
   s.description  = <<-DESC
@@ -75,7 +75,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/zhfeng20108/NBDataBase.git", :tag => "0.0.7" }
+  s.source       = { :git => "https://github.com/zhfeng20108/NBDataBase.git", :tag => "0.0.8" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #

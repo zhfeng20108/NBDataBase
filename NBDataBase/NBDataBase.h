@@ -276,6 +276,9 @@
 
 
 #pragma mark - 更新操作 自定义tableName
+-(BOOL)updateTableName:(NSString *)tableName
+                   set:(id)sets
+                 where:(id)where;
 -(BOOL)updateWithModel:(NBBaseDBTableModel *)model
              tableName:(NSString *)tableName
                    set:(id)sets
