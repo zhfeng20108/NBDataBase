@@ -275,9 +275,12 @@ NSString *createUpdateSQLWithTableName(NSString *tableName, id sets,id where,NSM
                 [updateKey appendFormat:@"%@=?",key];
                 [*updateValues addObject:[sets valueForKey:key]];
             }
+        } else {
+            assert(NO);
         }
+    } else {
+        assert(NO);
     }
-    assert(updateKey.length);
     NSMutableString* updateSQL = [NSMutableString stringWithFormat:@"update %@ set %@ ",tableName,updateKey];
     //添加where 语句
     NSError *error = nil;
