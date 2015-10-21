@@ -263,7 +263,7 @@ NSString *createUpdateSQLWithTableName(NSString *tableName, id sets,id where,NSM
     
     
     if (sets) {//格式：1.@"a=1" 2. @"a=1,b=2"  3.@{a:1,b:2}
-        if(([sets isKindOfClass:[NSString class]] && [sets length] > 0 && [[sets componentsSeparatedByString:@","] count] > 1)){
+        if(([sets isKindOfClass:[NSString class]] && [sets length] > 0) && [(NSString *)sets rangeOfString:@"="].length>0){
             [updateKey appendFormat:@"%@",sets];
         } else if ([sets isKindOfClass:[NSDictionary class]]) {
             NSArray *arr = [sets allKeys];
@@ -277,8 +277,7 @@ NSString *createUpdateSQLWithTableName(NSString *tableName, id sets,id where,NSM
             }
         }
     }
-    
-    
+    assert(updateKey.length);
     NSMutableString* updateSQL = [NSMutableString stringWithFormat:@"update %@ set %@ ",tableName,updateKey];
     //添加where 语句
     NSError *error = nil;
