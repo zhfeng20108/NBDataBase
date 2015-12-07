@@ -929,18 +929,19 @@
 
 #pragma mark - 更新操作
 
--(BOOL)updateWithModel:(NBBaseDBTableModel *)model
+-(BOOL)updateWithModel:(NBBaseDBTableModel *)model where:(id)where
 {
-    return [self updateWithModel:model table:[model class] set:nil];
+    return [self updateWithModel:model table:[model class] set:nil where:where];
 }
 
--(BOOL)updateWithModel:(NBBaseDBTableModel *)model set:(id)sets
+-(BOOL)updateWithModel:(NBBaseDBTableModel *)model set:(id)sets where:(id)where
 {
-    return [self updateWithModel:model table:[model class] set:sets];
+    return [self updateWithModel:model table:[model class] set:sets where:where];
 }
 -(BOOL)updateWithModel:(NBBaseDBTableModel *)model
                  table:(Class)tableClass
                    set:(id)sets
+                 where:(id)where
 {
     if(model == nil) {
         NSAssert(model, @"model 不能为空");
@@ -958,7 +959,7 @@
     [self.fmdbQueue inDatabase:^(FMDatabase *db) {
         //生成更新语句
         NSMutableArray *updateValues = nil;
-        NSString *updateSql = createUpdateSQLWithModelAndTableClass(model, tableClass,sets, nil, &updateValues);
+        NSString *updateSql = createUpdateSQLWithModelAndTableClass(model, tableClass,sets, where, &updateValues);
         //NSLog(@"%@",updateSql);
         if (updateSql) {
             if (updateValues.count > 0) {
@@ -1012,6 +1013,7 @@
 -(BOOL)updateWithModel:(NBBaseDBTableModel *)model
              tableName:(NSString *)tableName
                    set:(id)sets
+                 where:(id)where
 {
     if(model == nil) {
         NSAssert(model, @"model 不能为空");
@@ -1028,7 +1030,7 @@
     [self.fmdbQueue inDatabase:^(FMDatabase *db) {
         //生成更新语句
         NSMutableArray *updateValues = nil;
-        NSString *updateSql = createUpdateSQLWithModelAndTableName(model, tableName,sets, nil, &updateValues);
+        NSString *updateSql = createUpdateSQLWithModelAndTableName(model, tableName,sets, where, &updateValues);
         //NSLog(@"%@",updateSql);
         if (updateSql) {
             if (updateValues.count > 0) {
@@ -1062,7 +1064,7 @@
     }
     if ([array.firstObject isKindOfClass:[NBBaseDBTableModel class]]){//自定义对象
         if (array.count == 1) {
-            [self updateWithModel:array.firstObject table:tableClass set:sets];
+            [self updateWithModel:array.firstObject table:tableClass set:sets where:nil];
         } else {//开启事务
             [self.fmdbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
                 for(NBBaseDBTableModel *data in array){
@@ -1095,7 +1097,7 @@
     }
     if ([array.firstObject isKindOfClass:[NBBaseDBTableModel class]]){//自定义对象
         if (array.count == 1) {
-            [self updateWithModel:array.firstObject tableName:tableName set:sets];
+            [self updateWithModel:array.firstObject tableName:tableName set:sets where:nil];
         } else {//开启事务
             [self.fmdbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
                 for(NBBaseDBTableModel *data in array){

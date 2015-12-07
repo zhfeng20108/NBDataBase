@@ -107,12 +107,15 @@
 
 
 //更新数据表
--(BOOL)updateWithModel:(NBBaseDBTableModel *)model;
 -(BOOL)updateWithModel:(NBBaseDBTableModel *)model
-                   set:(id)sets;
+                 where:(id)where;
+-(BOOL)updateWithModel:(NBBaseDBTableModel *)model
+                   set:(id)sets
+                 where:(id)where;
 -(BOOL)updateWithModel:(NBBaseDBTableModel *)model
                  table:(Class)tableClass
-                   set:(id)sets;
+                   set:(id)sets
+                 where:(id)where;
 -(BOOL)updateTable:(Class)modelClass
                set:(id)sets
              where:(id)where;
@@ -279,7 +282,8 @@
                  where:(id)where;
 -(BOOL)updateWithModel:(NBBaseDBTableModel *)model
              tableName:(NSString *)tableName
-                   set:(id)sets;
+                   set:(id)sets
+                 where:(id)where;
 
 #pragma mark  - 更新一条以上记录
 -(void)updateWithDataArray:(NSArray *)array;
