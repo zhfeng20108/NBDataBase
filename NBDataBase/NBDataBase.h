@@ -107,14 +107,12 @@
 
 
 //更新数据表
--(BOOL)updateWithModel:(NBBaseDBTableModel *)model where:(id)where;
+-(BOOL)updateWithModel:(NBBaseDBTableModel *)model;
 -(BOOL)updateWithModel:(NBBaseDBTableModel *)model
-                   set:(id)sets
-                 where:(id)where;
+                   set:(id)sets;
 -(BOOL)updateWithModel:(NBBaseDBTableModel *)model
                  table:(Class)tableClass
-                   set:(id)sets
-                 where:(id)where;
+                   set:(id)sets;
 -(BOOL)updateTable:(Class)modelClass
                set:(id)sets
              where:(id)where;
@@ -281,8 +279,14 @@
                  where:(id)where;
 -(BOOL)updateWithModel:(NBBaseDBTableModel *)model
              tableName:(NSString *)tableName
-                   set:(id)sets
-                 where:(id)where;
+                   set:(id)sets;
+
+#pragma mark  - 更新一条以上记录
+-(void)updateWithDataArray:(NSArray *)array;
+-(void)updateWithDataArray:(NSArray *)array set:(id)sets;
+-(void)updateWithDataArray:(NSArray *)array table:(Class)tableClass set:(id)sets;
+-(void)updateWithDataArray:(NSArray *)array tableName:(NSString *)tableName;
+-(void)updateWithDataArray:(NSArray *)array tableName:(NSString *)tableName set:(id)sets;
 
 #pragma mark- - 查询多条数据（出库的modelClass和数据库表对应的tableName不一样的情况下使用以下接口）
 -(NSMutableArray *)query:(Class)modelClass

@@ -929,19 +929,18 @@
 
 #pragma mark - 更新操作
 
--(BOOL)updateWithModel:(NBBaseDBTableModel *)model where:(id)where
+-(BOOL)updateWithModel:(NBBaseDBTableModel *)model
 {
-    return [self updateWithModel:model table:[model class] set:nil where:where];
+    return [self updateWithModel:model table:[model class] set:nil];
 }
 
--(BOOL)updateWithModel:(NBBaseDBTableModel *)model set:(id)sets where:(id)where
+-(BOOL)updateWithModel:(NBBaseDBTableModel *)model set:(id)sets
 {
-    return [self updateWithModel:model table:[model class] set:sets where:where];
+    return [self updateWithModel:model table:[model class] set:sets];
 }
 -(BOOL)updateWithModel:(NBBaseDBTableModel *)model
                  table:(Class)tableClass
                    set:(id)sets
-                 where:(id)where
 {
     if(model == nil) {
         NSAssert(model, @"model 不能为空");
@@ -959,7 +958,7 @@
     [self.fmdbQueue inDatabase:^(FMDatabase *db) {
         //生成更新语句
         NSMutableArray *updateValues = nil;
-        NSString *updateSql = createUpdateSQLWithModelAndTableClass(model, tableClass,sets, where, &updateValues);
+        NSString *updateSql = createUpdateSQLWithModelAndTableClass(model, tableClass,sets, nil, &updateValues);
         //NSLog(@"%@",updateSql);
         if (updateSql) {
             if (updateValues.count > 0) {
@@ -1013,7 +1012,6 @@
 -(BOOL)updateWithModel:(NBBaseDBTableModel *)model
              tableName:(NSString *)tableName
                    set:(id)sets
-                 where:(id)where
 {
     if(model == nil) {
         NSAssert(model, @"model 不能为空");
@@ -1030,7 +1028,7 @@
     [self.fmdbQueue inDatabase:^(FMDatabase *db) {
         //生成更新语句
         NSMutableArray *updateValues = nil;
-        NSString *updateSql = createUpdateSQLWithModelAndTableName(model, tableName,sets, where, &updateValues);
+        NSString *updateSql = createUpdateSQLWithModelAndTableName(model, tableName,sets, nil, &updateValues);
         //NSLog(@"%@",updateSql);
         if (updateSql) {
             if (updateValues.count > 0) {
@@ -1045,6 +1043,79 @@
     return execute;
 }
 
+#pragma mark  - - 更新一条以上记录
+-(void)updateWithDataArray:(NSArray *)array
+{
+    [self updateWithDataArray:array set:nil];
+}
+-(void)updateWithDataArray:(NSArray *)array set:(id)sets
+{
+    if (array.count < 1) {
+        return;
+    }
+    [self updateWithDataArray:array table:[array.firstObject class] set:sets];
+}
+-(void)updateWithDataArray:(NSArray *)array table:(Class)tableClass set:(id)sets
+{
+    if (array.count == 0) {
+        return;
+    }
+    if ([array.firstObject isKindOfClass:[NBBaseDBTableModel class]]){//自定义对象
+        if (array.count == 1) {
+            [self updateWithModel:array.firstObject table:tableClass set:sets];
+        } else {//开启事务
+            [self.fmdbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+                for(NBBaseDBTableModel *data in array){
+                    //生成更新语句
+                    NSMutableArray *updateValues = nil;
+                    NSString *updateSql = createUpdateSQLWithModelAndTableClass(data, tableClass,sets, nil, &updateValues);
+                    if (updateSql) {
+                        if (updateValues.count > 0) {
+                            [db executeUpdate:updateSql withArgumentsInArray:updateValues];
+                        } else {
+                            [db executeUpdate:updateSql];
+                        }
+                    }
+                }
+            }];
+        }
+    } else {
+        NSAssert(YES, @"不支持的类型%@",[array.firstObject class]);
+    }
+}
+
+-(void)updateWithDataArray:(NSArray *)array tableName:(NSString *)tableName
+{
+    [self updateWithDataArray:array tableName:tableName set:nil];
+}
+-(void)updateWithDataArray:(NSArray *)array tableName:(NSString *)tableName set:(id)sets
+{
+    if (array.count == 0) {
+        return;
+    }
+    if ([array.firstObject isKindOfClass:[NBBaseDBTableModel class]]){//自定义对象
+        if (array.count == 1) {
+            [self updateWithModel:array.firstObject tableName:tableName set:sets];
+        } else {//开启事务
+            [self.fmdbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+                for(NBBaseDBTableModel *data in array){
+                    //生成更新语句
+                    NSMutableArray *updateValues = nil;
+                    NSString *updateSql = createUpdateSQLWithModelAndTableName(data, tableName,sets, nil, &updateValues);
+                    if (updateSql) {
+                        if (updateValues.count > 0) {
+                            [db executeUpdate:updateSql withArgumentsInArray:updateValues];
+                        } else {
+                            [db executeUpdate:updateSql];
+                        }
+                    }
+                }
+            }];
+        }
+    } else {
+        NSAssert(YES, @"不支持的类型%@",[array.firstObject class]);
+    }
+}
 
 #pragma mark- 查询操作
 #pragma mark- - 查询多条数据

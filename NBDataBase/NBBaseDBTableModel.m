@@ -45,7 +45,7 @@
 - (BOOL)updateDBWithColumns:(id)columns;
 {
     //数据插入
-    return [[[self class] getDataBase] updateWithModel:self set:columns where:nil];
+    return [[[self class] getDataBase] updateWithModel:self set:columns];
 }
 
 //以替换的方式入库，如果数据库已存在记录则替换掉原来的记录，否则就直接插入
@@ -98,7 +98,7 @@
 /// 更新指定的字段
 - (BOOL)updateDBTable:(NSString *)tableName columns:(id)columns
 {
-    return [[[self class] getDataBase] updateWithModel:self tableName:tableName set:columns where:nil];
+    return [[[self class] getDataBase] updateWithModel:self tableName:tableName set:columns];
 }
 
 /// 自动取主键，删记录
