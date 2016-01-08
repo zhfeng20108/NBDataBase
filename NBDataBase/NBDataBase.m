@@ -17,6 +17,7 @@
 #import "FMDatabaseQueue.h"
 #import "NBDBConfigure.h"
 #import "NBPrivateDataBase.h"
+#import <sqlite3.h>
 @interface NBDataBase ()
 
 //打开数据库

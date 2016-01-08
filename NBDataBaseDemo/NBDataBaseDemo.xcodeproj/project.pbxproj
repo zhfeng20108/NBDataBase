@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		255B288B1BB0020200253567 /* NBCommonDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 255B288A1BB0020200253567 /* NBCommonDataBase.m */; settings = {ASSET_TAGS = (); }; };
-		255B288E1BB0036200253567 /* NBUserDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 255B288D1BB0036200253567 /* NBUserDataBase.m */; settings = {ASSET_TAGS = (); }; };
-		255B28971BB0094D00253567 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 255B28961BB0094D00253567 /* Book.m */; settings = {ASSET_TAGS = (); }; };
-		255B289A1BB009E300253567 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 255B28991BB009E300253567 /* User.m */; settings = {ASSET_TAGS = (); }; };
+		255B288B1BB0020200253567 /* NBCommonDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 255B288A1BB0020200253567 /* NBCommonDataBase.m */; };
+		255B288E1BB0036200253567 /* NBUserDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 255B288D1BB0036200253567 /* NBUserDataBase.m */; };
+		255B28971BB0094D00253567 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 255B28961BB0094D00253567 /* Book.m */; };
+		255B289A1BB009E300253567 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 255B28991BB009E300253567 /* User.m */; };
 		25C601201BB0FEEB000983B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D7A3701B6F415300DC4412 /* Foundation.framework */; };
 		25CDACA61B6B765300C59432 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CDACA51B6B765300C59432 /* main.m */; };
 		25CDACA91B6B765300C59432 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 25CDACA81B6B765300C59432 /* AppDelegate.m */; };
@@ -26,7 +26,7 @@
 		25D7A3461B6F098500DC4412 /* NBPrivateDataBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A33F1B6F098500DC4412 /* NBPrivateDataBase.m */; };
 		25D7A3471B6F098500DC4412 /* NBSQLStatementHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A3411B6F098500DC4412 /* NBSQLStatementHelper.m */; };
 		25D7A37A1B6F46EF00DC4412 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D7A3781B6F46B900DC4412 /* libsqlite3.0.dylib */; };
-		25E05FFF1BABFFE800B380B8 /* NBDBConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 25E05FFE1BABFFE800B380B8 /* NBDBConfigure.m */; settings = {ASSET_TAGS = (); }; };
+		25E05FFF1BABFFE800B380B8 /* NBDBConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 25E05FFE1BABFFE800B380B8 /* NBDBConfigure.m */; };
 		ADB4B0C3A4D36538F452942D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75C0E7D17A11D4B86EC90731 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -243,6 +243,7 @@
 				25CDAC9D1B6B765300C59432 /* Frameworks */,
 				25CDAC9E1B6B765300C59432 /* Resources */,
 				57FA9DEAC12C6161F5C0F985 /* Copy Pods Resources */,
+				EBCDA6BB959B53BD2DA4BD47 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -357,6 +358,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		EBCDA6BB959B53BD2DA4BD47 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
