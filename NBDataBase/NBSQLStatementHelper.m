@@ -356,6 +356,8 @@ NSString *createInsertSQLWithColumns(NBBaseDBTableModel *model,NSString *tableNa
             for (unsigned int i = 0; i<outCount; i++)
             {
                 objc_property_t property = properties[i];
+                char *typeEncoding = property_copyAttributeValue(property, "T");
+                NSString *columnType = [NBDBHelper columnTypeStringWithDataType:typeEncoding];
                 const char *char_name = property_getName(property);
                 NSString *propertyName = [NSString stringWithUTF8String:char_name];
                 if ([NBDBHelper isColumn:propertyName]) {
@@ -372,7 +374,9 @@ NSString *createInsertSQLWithColumns(NBBaseDBTableModel *model,NSString *tableNa
                         
                         [insertKeyString appendString:key];
                         [insertValuesString appendString:@"?"];
-                        
+                        if ([columnType isEqualToString:@"BLOB"] && ![value isKindOfClass:[NSData class]]) {
+                            value = [NSKeyedArchiver archivedDataWithRootObject:value];
+                        }
                         [*insertValues addObject:value];
                         
                     }

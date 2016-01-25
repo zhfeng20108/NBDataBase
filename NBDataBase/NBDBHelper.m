@@ -93,7 +93,7 @@
                 } else if ([name isEqualToString:@"NSData"]) {
                     columnType = @"BLOB";
                 } else {
-                    NSLog(@"其它类型对象不支持写入数据库");
+                    columnType = @"BLOB";
                 }
                 free(cName);
             }
@@ -111,6 +111,7 @@
         {
             //若要做支持，封装NSValue对象
             columnType = nil; // Not supported
+            NSLog(@"其它类型对象不支持写入数据库");
             break;
             
         }

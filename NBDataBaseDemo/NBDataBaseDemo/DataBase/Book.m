@@ -7,9 +7,12 @@
 
 #import "Book.h"
 #import "NBCommonDataBase.h"
+#import "User.h"
 
 NSString *const kBookBookId = @"bookId";
 NSString *const kBookName = @"name";
+NSString *const kBookInfoDic = @"infoDic";
+NSString *const kBookAuthor = @"author";
 
 
 @interface Book ()
@@ -21,7 +24,6 @@ NSString *const kBookName = @"name";
 @implementation Book
 
 @synthesize _pk_bookId = _bookId;
-@synthesize name = _name;
 
 #pragma mark - load
 + (void)load
@@ -51,6 +53,9 @@ NSString *const kBookName = @"name";
     if(self && [dict isKindOfClass:[NSDictionary class]]) {
             self.bookId = [self objectOrNilForKey:kBookBookId fromDictionary:dict];
             self.name = [self objectOrNilForKey:kBookName fromDictionary:dict];
+        self.infoDic = [self objectOrNilForKey:kBookInfoDic fromDictionary:dict];
+        self.author = [User modelObjectWithDictionary:[dict objectForKey:kBookAuthor]];
+
 
     }
     
@@ -63,6 +68,8 @@ NSString *const kBookName = @"name";
     NSMutableDictionary *mutableDict = [NSMutableDictionary dictionary];
     [mutableDict setValue:self.bookId forKey:kBookBookId];
     [mutableDict setValue:self.name forKey:kBookName];
+    [mutableDict setValue:self.infoDic forKey:kBookInfoDic];
+    [mutableDict setValue:[self.author dictionaryRepresentation] forKey:kBookAuthor];
 
     return [NSDictionary dictionaryWithDictionary:mutableDict];
 }
@@ -88,6 +95,8 @@ NSString *const kBookName = @"name";
 
     self.bookId = [aDecoder decodeObjectForKey:kBookBookId];
     self.name = [aDecoder decodeObjectForKey:kBookName];
+    self.infoDic = [aDecoder decodeObjectForKey:kBookInfoDic];
+    self.author = [aDecoder decodeObjectForKey:kBookAuthor];
     return self;
 }
 
@@ -96,6 +105,9 @@ NSString *const kBookName = @"name";
 
     [aCoder encodeObject:_bookId forKey:kBookBookId];
     [aCoder encodeObject:_name forKey:kBookName];
+    [aCoder encodeObject:_infoDic forKey:kBookInfoDic];
+    [aCoder encodeObject:_author forKey:kBookAuthor];
+
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -106,6 +118,9 @@ NSString *const kBookName = @"name";
 
         copy.bookId = [self.bookId copyWithZone:zone];
         copy.name = [self.name copyWithZone:zone];
+        copy.infoDic = [self.infoDic copyWithZone:zone];
+        copy.author = [self.author copyWithZone:zone];
+
     }
     
     return copy;

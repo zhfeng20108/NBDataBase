@@ -7,12 +7,14 @@
 
 #import <Foundation/Foundation.h>
 #import "NBBaseDBTableModel.h"
-
+@class User;
 
 @interface Book : NBBaseDBTableModel <NSCoding, NSCopying>
 
 @property (setter=setBookId:,getter=bookId,nonatomic, strong) NSString *_pk_bookId;
 @property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSDictionary *infoDic;
+@property (nonatomic, strong) User *author;
 
 + (instancetype)modelObjectWithDictionary:(NSDictionary *)dict;
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

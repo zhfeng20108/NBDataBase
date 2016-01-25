@@ -53,8 +53,15 @@
     
     
     Book *book1 = [[Book alloc] init];
-    book1.bookId = @"1";
+    book1.bookId = @"3";
     book1.name = @"11";
+    book1.infoDic = @{@"key1":@"aa",@"key2":@"bb"};
+
+    User *user = [[User alloc] init];
+    user.uid = @"343";
+    user.name = @"haha";
+    user.age = 10;
+    book1.author = user;
     
     //数据入库
     [book1 saveToDB];
@@ -62,7 +69,7 @@
     //查询
     NSArray *array = [[Book getDataBase] query:[Book class]];
     NSLog(@"查询出来的数据：%@",array);
-    
+
     //更新
     book1.name = @"1111111";
     [book1 saveToDBUseUpdateWithColumns:@"_name"];

@@ -247,15 +247,16 @@
     }
     else if([columnClass isSubclassOfClass:[UIColor class]])
     {
-        NSString* color = value;
-        NSArray* array = [color componentsSeparatedByString:@","];
-        float r,g,b,a;
-        r = [[array objectAtIndex:0] floatValue];
-        g = [[array objectAtIndex:1] floatValue];
-        b = [[array objectAtIndex:2] floatValue];
-        a = [[array objectAtIndex:3] floatValue];
-        
-        modelValue = [UIColor colorWithRed:r green:g blue:b alpha:a];
+//        NSString* color = value;
+//        NSArray* array = [color componentsSeparatedByString:@","];
+//        float r,g,b,a;
+//        r = [[array objectAtIndex:0] floatValue];
+//        g = [[array objectAtIndex:1] floatValue];
+//        b = [[array objectAtIndex:2] floatValue];
+//        a = [[array objectAtIndex:3] floatValue];
+//        
+//        modelValue = [UIColor colorWithRed:r green:g blue:b alpha:a];
+        modelValue = nil;
     }
     else if([columnClass isSubclassOfClass:[UIImage class]])
     {
@@ -292,11 +293,13 @@
     else
     {
         modelValue = nil;
-//        modelValue = [self db_modelWithJsonValue:value];
-//        if([modelValue isKindOfClass:columnClass] == NO)
-//        {
-//            modelValue = nil;
-//        }
+        if ([value isKindOfClass:[NSData class]]) {
+            modelValue = [NSKeyedUnarchiver unarchiveObjectWithData:value];
+        }
+        if(![modelValue isKindOfClass:columnClass])
+        {
+            modelValue = nil;
+        }
     }
     
     [self setValue:modelValue forKey:key];
