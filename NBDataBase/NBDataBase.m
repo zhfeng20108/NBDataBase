@@ -14,7 +14,7 @@
 #import "NBDBNameHelper.h"
 #import "NBDBHelper.h"
 #import "NBDBDefine.h"
-#import "FMDatabaseQueue.h"
+#import <FMDB/FMDatabaseQueue.h>
 #import "NBDBConfigure.h"
 #import "NBPrivateDataBase.h"
 #import <sqlite3.h>
