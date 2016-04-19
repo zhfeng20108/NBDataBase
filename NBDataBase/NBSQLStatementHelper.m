@@ -435,6 +435,8 @@ NSString *createInsertSQLWithModelAndBeginClass(NBBaseDBTableModel *model,Class 
                 Ivar ivar = class_getInstanceVariable([model class], name);
                 NSString* key =[NSString stringWithUTF8String:ivar_getName(ivar)];
                 id value = [model valueForKey:key];
+                char *typeEncoding = property_copyAttributeValue(property, "T");
+                NSString *columnType = [NBDBHelper columnTypeStringWithDataType:typeEncoding];
                 if(value!=nil){
                     if(insertKeyString.length>0)
                     {
@@ -444,7 +446,9 @@ NSString *createInsertSQLWithModelAndBeginClass(NBBaseDBTableModel *model,Class 
                     
                     [insertKeyString appendString:key];
                     [insertValuesString appendString:@"?"];
-                    
+                    if ([columnType isEqualToString:@"BLOB"] && ![value isKindOfClass:[NSData class]]) {
+                        value = [NSKeyedArchiver archivedDataWithRootObject:value];
+                    }
                     [*insertValues addObject:value];
                     
                 }
