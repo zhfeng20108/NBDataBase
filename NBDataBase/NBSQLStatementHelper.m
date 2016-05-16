@@ -358,6 +358,7 @@ NSString *createInsertSQLWithColumns(NBBaseDBTableModel *model,NSString *tableNa
                 objc_property_t property = properties[i];
                 char *typeEncoding = property_copyAttributeValue(property, "T");
                 NSString *columnType = [NBDBHelper columnTypeStringWithDataType:typeEncoding];
+                free(typeEncoding);
                 const char *char_name = property_getName(property);
                 NSString *propertyName = [NSString stringWithUTF8String:char_name];
                 if ([NBDBHelper isColumn:propertyName]) {
@@ -437,6 +438,7 @@ NSString *createInsertSQLWithModelAndBeginClass(NBBaseDBTableModel *model,Class 
                 id value = [model valueForKey:key];
                 char *typeEncoding = property_copyAttributeValue(property, "T");
                 NSString *columnType = [NBDBHelper columnTypeStringWithDataType:typeEncoding];
+                free(typeEncoding);
                 if(value!=nil){
                     if(insertKeyString.length>0)
                     {
