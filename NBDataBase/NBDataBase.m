@@ -2114,6 +2114,9 @@
         
         [set close];
     }];
+    if (!results) {
+        results = [NSMutableArray arrayWithCapacity:0];
+    }
     return results;
 }
 
