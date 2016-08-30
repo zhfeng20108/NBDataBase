@@ -675,12 +675,6 @@ NSMutableString *wherePrimaryKeySQLWithModel(NBBaseDBTableModel *model,NSMutable
 
 NSString *createSelectSQLWithParams(NBDBQueryParams *params,NSMutableArray *__autoreleasing *selectValues)
 {
-    if(params.toClass == nil)
-    {
-        NSLog(@" toClass is nil");
-        return nil;
-    }
-    
     NSString* db_tableName = params.tableName;
     if (!db_tableName) {
         db_tableName = [params.tableClass getTableName];
@@ -727,12 +721,6 @@ NSString *createSelectSQLWithParams(NBDBQueryParams *params,NSMutableArray *__au
 }
 NSString *createUnionSelectSQLWithParams(NBDBQueryParams *params,NSMutableArray *__autoreleasing *selectValues)
 {
-    if(params.toClass == nil)
-    {
-        NSLog(@" toClass is nil");
-        return nil;
-    }
-    
     NSString* mainTableName = params.tableName;
     if (!mainTableName) {
         mainTableName = [params.tableClass getTableName];
