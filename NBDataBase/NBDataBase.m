@@ -42,7 +42,7 @@
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        __NBDataBase_instance = [[NBDataBase alloc] init];
+        __NBDataBase_instance = [[[self class] alloc] init];
     });
     return __NBDataBase_instance;
 }
@@ -2157,7 +2157,7 @@
             for (int i=0; i<columnCount; i++) {
                 
                 NSString* sqlName = [set columnNameForIndex:i];
-                NSString* key = [sqlName stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:@""];
+                NSString* key = [sqlName hasPrefix:@"_"] ? [sqlName stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:@""] : sqlName;
                 //赋值
                 id value = [set objectForColumnIndex:i];
                 
