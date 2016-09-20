@@ -27,7 +27,7 @@
 		25D7A3471B6F098500DC4412 /* NBSQLStatementHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7A3411B6F098500DC4412 /* NBSQLStatementHelper.m */; };
 		25D7A37A1B6F46EF00DC4412 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D7A3781B6F46B900DC4412 /* libsqlite3.0.dylib */; };
 		25E05FFF1BABFFE800B380B8 /* NBDBConfigure.m in Sources */ = {isa = PBXBuildFile; fileRef = 25E05FFE1BABFFE800B380B8 /* NBDBConfigure.m */; };
-		ADB4B0C3A4D36538F452942D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75C0E7D17A11D4B86EC90731 /* libPods.a */; };
+		4ADD776E95A985BD9048E926 /* libPods-NBDataBaseDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FC3701764F9C01CE809CF308 /* libPods-NBDataBaseDemo.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0AF4D0421C735EDB97BDCAD5 /* Pods-NBDataBaseDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NBDataBaseDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-NBDataBaseDemo/Pods-NBDataBaseDemo.release.xcconfig"; sourceTree = "<group>"; };
 		255B28891BB0020200253567 /* NBCommonDataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBCommonDataBase.h; sourceTree = "<group>"; };
 		255B288A1BB0020200253567 /* NBCommonDataBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBCommonDataBase.m; sourceTree = "<group>"; };
 		255B288C1BB0036200253567 /* NBUserDataBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBUserDataBase.h; sourceTree = "<group>"; };
@@ -82,9 +83,8 @@
 		25D7A3781B6F46B900DC4412 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		25E05FFD1BABFFE800B380B8 /* NBDBConfigure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBDBConfigure.h; sourceTree = "<group>"; };
 		25E05FFE1BABFFE800B380B8 /* NBDBConfigure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBDBConfigure.m; sourceTree = "<group>"; };
-		75C0E7D17A11D4B86EC90731 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		C0B2D4083FA6447A48A0C703 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		FAB296573324EFD7C87CB019 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		5823DA59E907DE8549F78478 /* Pods-NBDataBaseDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NBDataBaseDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NBDataBaseDemo/Pods-NBDataBaseDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		FC3701764F9C01CE809CF308 /* libPods-NBDataBaseDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NBDataBaseDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,7 +94,7 @@
 			files = (
 				25C601201BB0FEEB000983B2 /* Foundation.framework in Frameworks */,
 				25D7A37A1B6F46EF00DC4412 /* libsqlite3.0.dylib in Frameworks */,
-				ADB4B0C3A4D36538F452942D /* libPods.a in Frameworks */,
+				4ADD776E95A985BD9048E926 /* libPods-NBDataBaseDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +108,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1231B038116A782F2993E6D9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5823DA59E907DE8549F78478 /* Pods-NBDataBaseDemo.debug.xcconfig */,
+				0AF4D0421C735EDB97BDCAD5 /* Pods-NBDataBaseDemo.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		255B28881BB001EC00253567 /* DataBase */ = {
 			isa = PBXGroup;
 			children = (
@@ -135,8 +144,8 @@
 				25CDACA21B6B765300C59432 /* NBDataBaseDemo */,
 				25CDACBC1B6B765300C59432 /* NBDataBaseDemoTests */,
 				25CDACA11B6B765300C59432 /* Products */,
-				9962B8C44FB6651CBD3A8408 /* Pods */,
-				3E71E88E4CF26DB8F668AAE5 /* Frameworks */,
+				1231B038116A782F2993E6D9 /* Pods */,
+				7267E0185BB6A89CDA9267AE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -214,21 +223,12 @@
 			path = ../NBDataBase;
 			sourceTree = "<group>";
 		};
-		3E71E88E4CF26DB8F668AAE5 /* Frameworks */ = {
+		7267E0185BB6A89CDA9267AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				75C0E7D17A11D4B86EC90731 /* libPods.a */,
+				FC3701764F9C01CE809CF308 /* libPods-NBDataBaseDemo.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		9962B8C44FB6651CBD3A8408 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				C0B2D4083FA6447A48A0C703 /* Pods.debug.xcconfig */,
-				FAB296573324EFD7C87CB019 /* Pods.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -238,12 +238,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 25CDACC31B6B765300C59432 /* Build configuration list for PBXNativeTarget "NBDataBaseDemo" */;
 			buildPhases = (
-				70458044CE74CAEE426244C0 /* Check Pods Manifest.lock */,
+				AE4B7ADF043A094763374D87 /* [CP] Check Pods Manifest.lock */,
 				25CDAC9C1B6B765300C59432 /* Sources */,
 				25CDAC9D1B6B765300C59432 /* Frameworks */,
 				25CDAC9E1B6B765300C59432 /* Resources */,
-				57FA9DEAC12C6161F5C0F985 /* Copy Pods Resources */,
-				EBCDA6BB959B53BD2DA4BD47 /* Embed Pods Frameworks */,
+				8F466DE83E32DDE1D7C004BE /* [CP] Embed Pods Frameworks */,
+				FC15E26419462C750881508E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -283,6 +283,7 @@
 				TargetAttributes = {
 					25CDAC9F1B6B765300C59432 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = 4R47MJ4W53;
 					};
 					25CDACB81B6B765300C59432 = {
 						CreatedOnToolsVersion = 6.4;
@@ -330,49 +331,49 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		57FA9DEAC12C6161F5C0F985 /* Copy Pods Resources */ = {
+		8F466DE83E32DDE1D7C004BE /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NBDataBaseDemo/Pods-NBDataBaseDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		70458044CE74CAEE426244C0 /* Check Pods Manifest.lock */ = {
+		AE4B7ADF043A094763374D87 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		EBCDA6BB959B53BD2DA4BD47 /* Embed Pods Frameworks */ = {
+		FC15E26419462C750881508E /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NBDataBaseDemo/Pods-NBDataBaseDemo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -521,9 +522,10 @@
 		};
 		25CDACC41B6B765300C59432 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C0B2D4083FA6447A48A0C703 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 5823DA59E907DE8549F78478 /* Pods-NBDataBaseDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 4R47MJ4W53;
 				INFOPLIST_FILE = NBDataBaseDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -533,9 +535,10 @@
 		};
 		25CDACC51B6B765300C59432 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FAB296573324EFD7C87CB019 /* Pods.release.xcconfig */;
+			baseConfigurationReference = 0AF4D0421C735EDB97BDCAD5 /* Pods-NBDataBaseDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 4R47MJ4W53;
 				INFOPLIST_FILE = NBDataBaseDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

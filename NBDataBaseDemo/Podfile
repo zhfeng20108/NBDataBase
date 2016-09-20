@@ -1,4 +1,7 @@
+target 'NBDataBaseDemo' do
 
 pod 'FMDB/SQLCipher'
+
+end
 
 

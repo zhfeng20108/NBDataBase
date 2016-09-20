@@ -30,6 +30,9 @@
 /// 配置db库文件路径
 - (void)setupDBWithDBPath:(NSString *)dbPath;
 
+/// 配置db库文件路径,源db是否已经加密
+- (void)setupDBWithDBPath:(NSString *)dbPath isEncrypted:(BOOL)isEncrypted;
+
 /// 数据库升级
 + (void)updateTableInDB;
 /// 动态建一批表

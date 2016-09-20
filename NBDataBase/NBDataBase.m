@@ -80,6 +80,25 @@
     [self saveVersionToLocal];
 }
 
+/// 配置db库文件路径,源db是否已经加密
+- (void)setupDBWithDBPath:(NSString *)dbPath isEncrypted:(BOOL)isEncrypted
+{
+    if (_dbPath == dbPath) {
+        return;
+    }
+    _dbPath = dbPath;
+    
+    [self saveEncryptedStatus:isEncrypted];
+    
+    //升级数据库
+    [self upgradeDatabase:_dbPath];
+    //打开数据库
+    [self openDB];
+    //建表
+    [[self class] updateTableInDB];
+    //保存最新的数据库版本号
+    [self saveVersionToLocal];
+}
 
 #pragma mark - 建表/数据库升级
 + (void)updateTableInDB;

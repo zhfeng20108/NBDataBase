@@ -1,5 +1,5 @@
 PODS:
-  - FMDB/SQLCipher (2.6):
+  - FMDB/SQLCipher (2.6.2):
     - SQLCipher
   - SQLCipher (3.1.0):
     - SQLCipher/standard (= 3.1.0)
@@ -11,7 +11,9 @@ DEPENDENCIES:
   - FMDB/SQLCipher
 
 SPEC CHECKSUMS:
-  FMDB: c1968bab3ab0aed38f66cb778ae1e7fa9a652b6e
+  FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   SQLCipher: 4684434d5791db86512cd7e02172aefba575849e
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: f67db90bfd64dd31d907d06266f3e1936d84adc5
+
+COCOAPODS: 1.1.0.beta.2
