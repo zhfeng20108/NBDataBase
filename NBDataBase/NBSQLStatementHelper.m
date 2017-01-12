@@ -233,6 +233,15 @@ NSString *createUpdateSQLWithModelAndTableName(NBBaseDBTableModel *model,NSStrin
                         [updateKey appendString:@","];
                     }
                     [updateKey appendFormat:@"%@=?",key];
+                    id value = [model valueForKey:key];
+
+                    char *typeEncoding = property_copyAttributeValue(property, "T");
+                    NSString *columnType = [NBDBHelper columnTypeStringWithDataType:typeEncoding];
+                    free(typeEncoding);
+                    if ([columnType isEqualToString:@"BLOB"] && ![[model valueForKey:key] isKindOfClass:[NSData class]]) {
+                        //需要归档为二进制数据入库
+                        value = [NSKeyedArchiver archivedDataWithRootObject:value];
+                    }
                     [*updateValues addObject:[model valueForKey:key]];
                 }
             }
