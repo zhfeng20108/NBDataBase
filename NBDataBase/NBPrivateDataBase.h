@@ -9,8 +9,7 @@
 #import "NBDataBase.h"
 
 @interface NBPrivateDataBase : NBDataBase
-//单例声明
-+ (NBPrivateDataBase *)sharedInstance;
+
 
 /// 处理退出登录
 - (void)onLogOut;

@@ -36,7 +36,7 @@
 }
 
 //单例实现
-+ (NBDataBase *)sharedInstance
++ (instancetype)sharedInstance
 {
     static NBDataBase *__NBDataBase_instance = nil;
     
@@ -104,7 +104,7 @@
 + (void)updateTableInDB;
 {
     //用事务来操作
-    [[[self class] sharedInstance].fmdbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+    [[[[self class] sharedInstance] fmdbQueue] inTransaction:^(FMDatabase *db, BOOL *rollback) {
         for (NSValue *value in [[[self class] sharedInstance] registedClassesArray])
         {
             Class clazz = [value pointerValue];
@@ -193,6 +193,8 @@
 - (void)closeDB;
 {
     [self.fmdbQueue close];
+    self.dbPath = nil;
+    self.fmdbQueue = nil;
 }
 
 /// 动态建一批表
@@ -200,7 +202,7 @@
 {
     //用事务来操作
     Class clazz = tableClass;
-    [[[self class] sharedInstance].fmdbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+    [[[[self class] sharedInstance] fmdbQueue] inTransaction:^(FMDatabase *db, BOOL *rollback) {
         for (NSString *tableName in tableNameArray)
         {
             if ([clazz isSubclassOfClass:[NBBaseDBTableModel class]]) {

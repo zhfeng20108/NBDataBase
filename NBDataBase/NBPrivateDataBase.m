@@ -11,7 +11,7 @@
 #import "NBDBConfigure.h"
 @implementation NBPrivateDataBase
 //单例实现
-+ (NBPrivateDataBase *)sharedInstance
++ (instancetype)sharedInstance
 {
     static NBPrivateDataBase *__NBPrivateDataBase_instance = nil;
     

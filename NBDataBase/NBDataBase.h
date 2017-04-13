@@ -22,7 +22,7 @@
 
 
 //单例声明
-+ (NBDataBase *)sharedInstance;
++ (instancetype)sharedInstance;
 
 /// 保存数据库表对应的model类
 - (void)addRegisteClass:(Class)modelClass;
