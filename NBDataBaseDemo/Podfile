@@ -1,5 +1,7 @@
 target 'NBDataBaseDemo' do
 
+pod 'WCDB'
+pod 'FMDB'
 pod 'FMDB/SQLCipher'
 
 end

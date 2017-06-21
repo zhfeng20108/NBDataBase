@@ -34,7 +34,7 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *cacheDirectory = [paths objectAtIndex:0];
     NSString *dbPath = [cacheDirectory stringByAppendingPathComponent:@"common.db"];
-
+    NSLog(@"cacheDirectory:  %@",cacheDirectory);
     [[NBCommonDataBase sharedInstance] setupDBWithDBPath:dbPath];
    
     //私有数据库

@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "NBDataBase"
-  s.version      = "0.2.2"
+  s.version      = "0.2.3"
   s.summary      = "an orm database."
 
   s.description  = <<-DESC
@@ -21,14 +21,27 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, "5.0"
 
-  s.source       = { :git => "https://github.com/zhfeng20108/NBDataBase.git", :tag => "0.2.2" }
+  s.source       = { :git => "https://github.com/zhfeng20108/NBDataBase.git", :tag => "0.2.3" }
 
   s.source_files  = "NBDataBase/*.{h,m}"
 
-  s.library   = "sqlite3.0"
-
   s.requires_arc = true
 
-  s.dependency "FMDB/SQLCipher"
+  s.default_subspec = 'standard'
+
+  # use the built-in library version of sqlite3
+  s.subspec 'standard' do |ss|
+    ss.dependency 'FMDB/SQLCipher'
+    ss.library = 'sqlite3.0'
+    ss.source_files = 'NBDataBase/*.{h,m}'
+  end
+
+  # use SQLCipher and enable -DSQLITE_HAS_CODEC flag
+  s.subspec 'WCDB' do |ss|
+    ss.dependency 'WCDB'
+    ss.dependency 'FMDB'
+    ss.source_files = 'NBDataBase/*.{h,m}'
+    ss.xcconfig = { 'OTHER_CFLAGS' => '$(inherited) -DSQLITE_HAS_CODEC -DHAVE_USLEEP=1' }
+  end
 
 end
