@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "NBDataBase"
-  s.version      = "0.2.5"
+  s.version      = "0.2.6"
   s.summary      = "an orm database."
 
   s.description  = <<-DESC
@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, "5.0"
 
-  s.source       = { :git => "https://github.com/zhfeng20108/NBDataBase.git", :tag => "0.2.5" }
+  s.source       = { :git => "https://github.com/zhfeng20108/NBDataBase.git", :tag => "0.2.6" }
 
   s.source_files  = "NBDataBase/*.{h,m}"
 
@@ -39,6 +39,7 @@ Pod::Spec.new do |s|
   # use 加密，需要配合 WCDB或FMDB／Encrypt或FMDB/SQLCipher使用
   s.subspec 'Encrypt' do |ss|
     ss.dependency 'WCDB'
+    ss.dependency 'FMDB'
     ss.source_files = 'NBDataBase/*.{h,m}'
     ss.xcconfig = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'SQLITE_HAS_CODEC=1 HAVE_USLEEP=1' }
   end
