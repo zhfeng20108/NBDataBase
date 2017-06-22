@@ -26,6 +26,7 @@ Pod::Spec.new do |s|
   s.source_files  = "NBDataBase/*.{h,m}"
 
   s.requires_arc = true
+  s.xcconfig = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'SQLITE_HAS_CODEC=1 HAVE_USLEEP=1' }
 
   s.default_subspec = 'standard'
 
@@ -36,12 +37,10 @@ Pod::Spec.new do |s|
     ss.source_files = 'NBDataBase/*.{h,m}'
   end
 
-  # use SQLCipher and enable -DSQLITE_HAS_CODEC flag
+  # use FMDB and WCDB
   s.subspec 'WCDB' do |ss|
-    ss.dependency 'WCDB'
-    ss.dependency 'FMDB'
+    ss.dependency 'FMDB/Encrypt' #私有仓库
     ss.source_files = 'NBDataBase/*.{h,m}'
-    ss.xcconfig = { 'OTHER_CFLAGS' => '$(inherited) -DSQLITE_HAS_CODEC -DHAVE_USLEEP=1' }
   end
 
 end
