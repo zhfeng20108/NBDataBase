@@ -10,22 +10,23 @@
 #import "NBDBDefine.h"
 #import "NBDBConfigure.h"
 @implementation NBPrivateDataBase
-//单例实现
-+ (instancetype)sharedInstance
-{
-    static NBPrivateDataBase *__NBPrivateDataBase_instance = nil;
-    
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        __NBPrivateDataBase_instance = [[NBPrivateDataBase alloc] init];
-    });
-    return __NBPrivateDataBase_instance;
-}
 
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
++ (instancetype _Nonnull)sharedInstance
+{
+    static NBPrivateDataBase *__NBDataBase_instance = nil;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        __NBDataBase_instance = [[self alloc] init];
+    });
+    return __NBDataBase_instance;
+}
+
 - (instancetype)init
 {
     self = [super init];
@@ -38,8 +39,6 @@
 {
     //关闭数据库
     [self closeDB];
-    self.dbPath = nil;
-    self.fmdbQueue = nil;
 }
 
 @end

@@ -23,6 +23,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
     //设置当前数据库版本号
     [NBDBConfigure setVersion:@"0.0.2"];
     //设置加密的最小版本号
@@ -105,6 +107,7 @@
     [muArr addObject:user3];
     //以事务方式入库，适合大量数据入库时调用
     [[User getDataBase] insertToDBWithDataArray:muArr];
+    });
     
 }
 
