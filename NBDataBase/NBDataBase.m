@@ -14,11 +14,11 @@
 #import "NBDBNameHelper.h"
 #import "NBDBHelper.h"
 #import "NBDBDefine.h"
-#import <FMDB/FMDatabaseQueue.h>
 #import "NBDBConfigure.h"
 #import "NBPrivateDataBase.h"
 #import <sqlite3.h>
 #import <pthread/pthread.h>
+#import <FMDB/FMDB.h>
 
 @interface NBDataBase () {
     pthread_mutex_t _lock;
@@ -1931,26 +1931,23 @@
         pthread_mutex_unlock(&_lock);
         return NO;
     }
-    if (_dbPath.length < 1) {
+    if (self.dbPath.length < 1) {
         pthread_mutex_unlock(&_lock);
         return NO;
     }
     //升级数据库
     [self upgradeDatabase:_dbPath];
     @try {
+        self.fmdbQueue = [FMDatabaseQueue databaseQueueWithPath:_dbPath];
         if (!_fmdbQueue) {
-            _fmdbQueue = [FMDatabaseQueue databaseQueueWithPath:_dbPath];
-            if (!_fmdbQueue) {
-                success = NO;
-            } else {
-                [_fmdbQueue inDatabase:^(FMDatabase *db) {
-                    if ([self isNeedEncrypted]) {
-                        [db setKey:[NBDBConfigure secretkey]];
-                    }
-                    [db setShouldCacheStatements:YES];
-                }];
-            }
-            
+            success = NO;
+        } else {
+            [_fmdbQueue inDatabase:^(FMDatabase *db) {
+                if ([self isNeedEncrypted]) {
+                    [db setKey:[NBDBConfigure secretkey]];
+                }
+                [db setShouldCacheStatements:YES];
+            }];
         }
         if (_fmdbQueue) {
             success = YES;

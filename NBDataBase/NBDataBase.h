@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <FMDB/FMDatabaseAdditions.h>
 #import "NBSQLStatementHelper.h"
 @class FMDatabaseQueue;
 @class NBBaseDBTableModel;

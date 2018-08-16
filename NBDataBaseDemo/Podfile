@@ -1,10 +1,8 @@
-#source 'https://github.com/zhfeng20108/podsecRepo.git'
-#source 'https://github.com/CocoaPods/Specs.git'
 target 'NBDataBaseDemo' do
 
-#pod 'FMDB/Encrypt'
-pod 'FMDB/SQLCipher'
-
+pod 'FMDB'
+pod 'WCDB'
+#pod 'FMDB/SQLCipher'
 end
 
 
